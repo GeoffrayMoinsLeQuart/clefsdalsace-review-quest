@@ -1,3 +1,5 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import ResultsShowcase from "@/components/ResultsShowcase";
 import Services from "@/components/Services";
@@ -7,14 +9,18 @@ import EstimationWidget from "@/components/EstimationWidget";
 
 const Index = () => {
   return (
-    <main className="min-h-screen">
-      <Hero />
-      <ResultsShowcase />
-      <Services />
-      <Testimonials />
-      <ContactCTA />
-      <EstimationWidget />
-    </main>
+    <>
+      <Header />
+      <main className="min-h-screen">
+        <Hero />
+        <ResultsShowcase />
+        <Services />
+        <Testimonials />
+        <ContactCTA />
+        <EstimationWidget />
+      </main>
+      <Footer />
+    </>
   );
 };
 

@@ -1,0 +1,141 @@
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
+
+const Footer = () => {
+  const footerLinks = {
+    services: {
+      title: "Nos Services",
+      links: [
+        { name: "Conciergerie Airbnb", href: "/conciergerie" },
+        { name: "Gestion Locative", href: "/gestion-locative" },
+        { name: "Nos Biens", href: "/nos-biens" },
+        { name: "Estimation Gratuite", href: "/estimation" },
+      ]
+    },
+    company: {
+      title: "Entreprise",
+      links: [
+        { name: "À propos", href: "/about" },
+        { name: "Blog", href: "/blog" },
+        { name: "Témoignages", href: "/#testimonials" },
+        { name: "Contact", href: "/contact" },
+      ]
+    },
+    legal: {
+      title: "Légal",
+      links: [
+        { name: "Mentions légales", href: "/mentions-legales" },
+        { name: "CGV", href: "/conditions-generales-vente" },
+        { name: "Politique de confidentialité", href: "/politique-confidentialite" },
+        { name: "Cookies", href: "/cookies" },
+      ]
+    }
+  };
+
+  return (
+    <footer className="bg-gray-900 text-white">
+      {/* Main Footer */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+          {/* Company Info */}
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-gradient-hero flex items-center justify-center shadow-md">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M9 22V12H15V22" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div>
+                <div className="text-xl font-bold">Les Clés d'Alsace</div>
+                <div className="text-sm text-gray-400">Conciergerie Premium</div>
+              </div>
+            </div>
+            <p className="text-gray-400 mb-6 leading-relaxed">
+              Votre partenaire de confiance pour la gestion locative et la conciergerie Airbnb à Mulhouse et ses environs. 
+              <span className="text-accent font-semibold"> +40% de revenus garantis</span>.
+            </p>
+            
+            {/* Contact Info */}
+            <div className="space-y-3">
+              <a href="tel:+33362147192" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
+                <Phone className="w-5 h-5 text-accent" />
+                <span>03 36 21 47 19 22</span>
+              </a>
+              <a href="mailto:contact@clefsdalsace.fr" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
+                <Mail className="w-5 h-5 text-accent" />
+                <span>contact@clefsdalsace.fr</span>
+              </a>
+              <div className="flex items-start gap-3 text-gray-300">
+                <MapPin className="w-5 h-5 text-accent mt-1" />
+                <span>Mulhouse, Alsace<br />France</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Links Columns */}
+          {Object.entries(footerLinks).map(([key, section]) => (
+            <div key={key}>
+              <h3 className="text-lg font-bold mb-4">{section.title}</h3>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.name}>
+                    <a 
+                      href={link.href}
+                      className="text-gray-400 hover:text-white transition-colors"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="border-t border-gray-800">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-gray-400">
+              © {new Date().getFullYear()} Les Clés d'Alsace. Tous droits réservés.
+            </p>
+            
+            {/* Social Links */}
+            <div className="flex items-center gap-4">
+              <a 
+                href="https://facebook.com/clefsdalsace" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary flex items-center justify-center transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://instagram.com/clefsdalsace" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-gray-800 hover:bg-accent flex items-center justify-center transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://linkedin.com/company/clefsdalsace" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary flex items-center justify-center transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
