@@ -1,7 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Phone, Star } from "lucide-react";
+import { ArrowRight, Phone, Star, Calculator } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  
+  const scrollToCalculator = () => {
+    const calculatorSection = document.getElementById('revenue-calculator');
+    if (calculatorSection) {
+      calculatorSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background avec gradient alsacien */}
@@ -63,10 +73,25 @@ const Hero = () => {
                 className="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
               />
             </div>
-            <Button size="lg" className="w-full sm:w-auto mt-4 bg-primary hover:bg-primary/90 text-white px-8">
-              Obtenir mon estimation
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3 mt-4">
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 text-white px-8 group"
+                onClick={scrollToCalculator}
+              >
+                <Calculator className="mr-2 w-5 h-5" />
+                Calculer mes revenus
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="border-2 border-white text-gray-900 bg-white hover:bg-gray-50 px-8"
+                onClick={() => navigate('/contact')}
+              >
+                Me faire rappeler
+              </Button>
+            </div>
           </div>
           
           {/* Social proof */}

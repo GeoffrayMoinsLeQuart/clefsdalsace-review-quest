@@ -1,11 +1,13 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 
 const Blog = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
   const featuredArticle = {
@@ -155,7 +157,10 @@ const Blog = () => {
         <section className="py-16 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
-              <a href={`/blog/${featuredArticle.slug}`} className="group">
+              <div 
+                className="group cursor-pointer"
+                onClick={() => navigate(`/blog/${featuredArticle.slug}`)}
+              >
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-card rounded-2xl overflow-hidden shadow-service hover:shadow-elegant transition-all duration-300">
                   <div className="relative h-80 lg:h-auto overflow-hidden">
                     <img 
@@ -194,13 +199,19 @@ const Blog = () => {
                       </div>
                     </div>
                     
-                    <Button className="w-fit group/btn">
+                    <Button 
+                      className="w-fit group/btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/blog/${featuredArticle.slug}`);
+                      }}
+                    >
                       Lire l'article
                       <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
         </section>
@@ -218,10 +229,10 @@ const Blog = () => {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {filteredArticles.map((article, index) => (
-                    <a 
+                    <div 
                       key={index}
-                      href={`/blog/${article.slug}`}
-                      className="group bg-card rounded-2xl overflow-hidden shadow-service hover:shadow-elegant transition-all duration-300"
+                      className="group bg-card rounded-2xl overflow-hidden shadow-service hover:shadow-elegant transition-all duration-300 cursor-pointer"
+                      onClick={() => navigate(`/blog/${article.slug}`)}
                     >
                       <div className="relative h-52 overflow-hidden">
                         <img 
@@ -256,7 +267,7 @@ const Blog = () => {
                           </div>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   ))}
                 </div>
               )}

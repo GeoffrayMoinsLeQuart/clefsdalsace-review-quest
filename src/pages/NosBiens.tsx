@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Filter, TrendingUp, Home, Bed, Square } from "lucide-react";
+import { Filter, TrendingUp, Home, Bed, Square, ArrowRight } from "lucide-react";
 
 const NosBiens = () => {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("all");
 
   const properties = [
@@ -227,8 +229,13 @@ const NosBiens = () => {
                       </div>
                     </div>
                     
-                    <Button variant="outline" className="w-full mt-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <Button 
+                      variant="outline" 
+                      className="w-full mt-6 group-hover:bg-primary group-hover:text-white transition-colors"
+                      onClick={() => navigate(`/nos-biens/${property.id}`)}
+                    >
                       Voir le détail
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </div>
                 </div>
@@ -254,8 +261,14 @@ const NosBiens = () => {
                 <p className="text-xl mb-8 text-white/90">
                   Obtenez une estimation gratuite et découvrez votre potentiel de revenus
                 </p>
-                <Button size="lg" variant="secondary" className="gap-2 text-lg px-8">
+                <Button 
+                  size="lg" 
+                  variant="secondary" 
+                  className="gap-2 text-lg px-8"
+                  onClick={() => navigate('/contact')}
+                >
                   Demander mon estimation
+                  <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>
             </div>
