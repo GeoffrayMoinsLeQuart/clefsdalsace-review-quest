@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Calculator, X } from "lucide-react";
 import { Button } from "./ui/button";
 
 const EstimationWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -28,7 +30,7 @@ const EstimationWidget = () => {
             Estimation rapide
           </h3>
           
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); navigate('/contact'); }}>
             <div>
               <label className="block text-sm font-medium mb-2">Type de bien</label>
               <select className="w-full px-4 py-2 rounded-lg border border-input bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">

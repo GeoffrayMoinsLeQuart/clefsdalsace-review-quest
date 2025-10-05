@@ -17,12 +17,13 @@ const builder = sanityClient ? imageUrlBuilder(sanityClient) : null;
 
 export const urlFor = (source: any) => {
   if (!builder) {
-    // Retourner un objet compatible avec l'API ImageUrlBuilder
+    const placeholder = "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&auto=format&fit=crop";
+    const resolved = typeof source === 'string' ? source : placeholder;
     return {
-      width: () => ({ url: () => source }),
-      height: () => ({ url: () => source }),
-      url: () => source
-    };
+      width: () => ({ url: () => resolved }),
+      height: () => ({ url: () => resolved }),
+      url: () => resolved,
+    } as any;
   }
   return builder.image(source);
 };

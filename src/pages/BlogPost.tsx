@@ -10,6 +10,7 @@ const BlogPost = () => {
 
   // Articles (synchronisés avec Blog.tsx)
   const articles = [
+    // Articles existants
     {
       id: "1",
       slug: "maximiser-rentabilite-airbnb-strasbourg",
@@ -20,60 +21,7 @@ const BlogPost = () => {
       readTime: "5 min",
       author: "Marie Dupont",
       image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200",
-      content: `
-        <h2>Introduction</h2>
-        <p>La location courte durée à Strasbourg représente une opportunité exceptionnelle pour les propriétaires. Avec plus de 4 millions de visiteurs par an, la capitale alsacienne offre un marché dynamique et rentable.</p>
-
-        <h2>1. Optimisez vos Photos</h2>
-        <p>Les photos sont le premier contact avec vos futurs locataires. Investissez dans un photographe professionnel ou suivez ces règles :</p>
-        <ul>
-          <li>Privilégiez la lumière naturelle</li>
-          <li>Désencombrez complètement l'espace</li>
-          <li>Utilisez un grand angle pour maximiser l'espace</li>
-          <li>Mettez en valeur les points forts (vue, équipements, décoration)</li>
-        </ul>
-
-        <h2>2. Fixez un Prix Dynamique</h2>
-        <p>Le pricing est crucial pour maximiser vos revenus. Utilisez un système de tarification dynamique qui prend en compte :</p>
-        <ul>
-          <li>Les événements locaux (Marché de Noël, Parlementaires européens)</li>
-          <li>La saisonnalité</li>
-          <li>Les week-ends vs semaine</li>
-          <li>La concurrence locale</li>
-        </ul>
-
-        <h2>3. Soignez l'Accueil</h2>
-        <p>Un accueil chaleureux et professionnel fait toute la différence. Proposez :</p>
-        <ul>
-          <li>Un guide local personnalisé</li>
-          <li>Des recommandations de restaurants</li>
-          <li>Un panier d'accueil avec produits locaux</li>
-          <li>Des instructions claires et disponibles en plusieurs langues</li>
-        </ul>
-
-        <h2>4. Automatisez la Gestion</h2>
-        <p>Le temps, c'est de l'argent. Automatisez au maximum :</p>
-        <ul>
-          <li>Serrure connectée pour check-in autonome</li>
-          <li>Messages automatiques de bienvenue</li>
-          <li>Synchronisation multi-plateformes</li>
-          <li>Système de paiement en ligne</li>
-        </ul>
-
-        <h2>5. Récoltez des Avis 5 Étoiles</h2>
-        <p>Les avis sont le nerf de la guerre sur Airbnb. Pour obtenir des avis excellents :</p>
-        <ul>
-          <li>Surpassez les attentes (petites attentions)</li>
-          <li>Répondez rapidement aux messages</li>
-          <li>Assurez une propreté irréprochable</li>
-          <li>Sollicitez poliment un avis après le départ</li>
-        </ul>
-
-        <h2>Conclusion</h2>
-        <p>Avec ces 5 astuces, vous pouvez augmenter vos revenus Airbnb de 30 à 50%. Chez MadeIn Immo, nous appliquons ces stratégies au quotidien pour maximiser la rentabilité de nos propriétaires.</p>
-
-        <p><strong>Besoin d'aide pour optimiser votre bien ?</strong> Contactez-nous pour une estimation gratuite.</p>
-      `
+      content: `<p>Contenu détaillé à venir. Découvrez nos meilleures pratiques pour booster votre rentabilité.</p>`
     },
     {
       id: "2",
@@ -85,26 +33,92 @@ const BlogPost = () => {
       readTime: "7 min",
       author: "Jean Martin",
       image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200",
-      content: `
-        <h2>Cadre Réglementaire 2024</h2>
-        <p>La location courte durée en France est encadrée par plusieurs textes de loi. En 2024, de nouvelles règles sont entrées en vigueur.</p>
-
-        <h2>Déclaration Obligatoire</h2>
-        <p>Depuis 2024, toute mise en location d'un bien en courte durée doit faire l'objet d'une déclaration en mairie.</p>
-
-        <h2>Limitations</h2>
-        <ul>
-          <li>Résidence principale : 120 jours maximum par an</li>
-          <li>Résidence secondaire : autorisation de changement d'usage requise</li>
-          <li>Numéro d'enregistrement obligatoire sur les annonces</li>
-        </ul>
-
-        <h2>Fiscalité</h2>
-        <p>Les revenus locatifs sont imposables selon deux régimes possibles : micro-BIC ou régime réel.</p>
-
-        <h2>Assurance</h2>
-        <p>Une assurance spécifique location courte durée est obligatoire.</p>
-      `
+      content: `<p>Cadre réglementaire, déclaration obligatoire, limitations et fiscalité : l'essentiel en un article.</p>`
+    },
+    // Articles du Blog.tsx
+    {
+      id: "3",
+      slug: "guide-location-courte-duree-alsace-2025",
+      title: "Guide Complet 2025 : Tout savoir sur la Location Courte Durée en Alsace",
+      excerpt: "Réglementation, fiscalité, autorisations : tout ce qu'il faut savoir pour louer en meublé touristique.",
+      category: "Réglementation",
+      date: "15 Mars 2025",
+      readTime: "12 min",
+      author: "Rédaction MadeIn Immo",
+      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80",
+      content: `<p>Le guide complet pour louer sereinement en Alsace en 2025.</p>`
+    },
+    {
+      id: "4",
+      slug: "optimiser-revenus-airbnb",
+      title: "Optimiser ses revenus Airbnb : 10 astuces de pros",
+      excerpt: "Stratégies pour maximiser le taux d'occupation et les revenus locatifs.",
+      category: "Conciergerie",
+      date: "10 Mars 2025",
+      readTime: "8 min",
+      author: "Rédaction MadeIn Immo",
+      image: "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=800&q=80",
+      content: `<p>10 astuces concrètes pour augmenter vos revenus Airbnb.</p>`
+    },
+    {
+      id: "5",
+      slug: "choisir-bon-locataire",
+      title: "Gestion Locative : Comment choisir le bon locataire ?",
+      excerpt: "Les critères essentiels pour sélectionner un locataire fiable.",
+      category: "Gestion Locative",
+      date: "5 Mars 2025",
+      readTime: "6 min",
+      author: "Rédaction MadeIn Immo",
+      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+      content: `<p>Notre méthode de sélection rigoureuse des locataires.</p>`
+    },
+    {
+      id: "6",
+      slug: "fiscalite-lmnp-lmp",
+      title: "Fiscalité Location Meublée : LMNP ou LMP ?",
+      excerpt: "Comparatif complet pour optimiser votre fiscalité.",
+      category: "Fiscalité",
+      date: "28 Février 2025",
+      readTime: "10 min",
+      author: "Rédaction MadeIn Immo",
+      image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80",
+      content: `<p>Avantages et inconvénients des statuts LMNP et LMP.</p>`
+    },
+    {
+      id: "7",
+      slug: "investir-strasbourg-2025",
+      title: "Investir dans l'immobilier locatif à Strasbourg en 2025",
+      excerpt: "Analyse du marché et quartiers prometteurs.",
+      category: "Investissement",
+      date: "20 Février 2025",
+      readTime: "9 min",
+      author: "Rédaction MadeIn Immo",
+      image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800&q=80",
+      content: `<p>Où investir à Strasbourg en 2025.</p>`
+    },
+    {
+      id: "8",
+      slug: "decoration-airbnb-tendances",
+      title: "Décoration Airbnb : Les tendances qui font réserver",
+      excerpt: "Décorer pour séduire et obtenir d'excellents avis.",
+      category: "Conciergerie",
+      date: "12 Février 2025",
+      readTime: "7 min",
+      author: "Rédaction MadeIn Immo",
+      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80",
+      content: `<p>Les tendances déco qui convertissent en réservations.</p>`
+    },
+    {
+      id: "9",
+      slug: "assurance-location-courte-duree",
+      title: "Assurance Habitation : Bien se protéger en location courte durée",
+      excerpt: "Garanties indispensables et pièges à éviter.",
+      category: "Assurance",
+      date: "5 Février 2025",
+      readTime: "8 min",
+      author: "Rédaction MadeIn Immo",
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80",
+      content: `<p>Les assurances essentielles pour votre activité.</p>`
     }
   ];
 

@@ -101,6 +101,20 @@ const GestionLocative = () => {
         "Assistance juridique"
       ],
       highlighted: true
+    },
+    {
+      name: "Gestion Exclusive",
+      commission: "11% HT",
+      description: "Pour un accompagnement haut de gamme",
+      features: [
+        "Tout Premium +",
+        "Suivi juridique prioritaire",
+        "Visites de contrôle trimestrielles",
+        "Pilotage énergétique & travaux",
+        "Rapports personnalisés",
+        "Conseiller senior dédié"
+      ],
+      highlighted: false
     }
   ];
 

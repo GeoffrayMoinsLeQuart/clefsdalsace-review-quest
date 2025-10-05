@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
+import { HelpCircle } from "lucide-react";
 interface FAQItem {
   question: string;
   answer: string;
@@ -36,7 +36,10 @@ const FAQ = ({ items, title = "Questions Fréquentes", subtitle }: FAQProps) => 
                 className="bg-card border border-border rounded-xl px-6 shadow-sm hover:shadow-md transition-all"
               >
                 <AccordionTrigger className="text-left font-semibold hover:no-underline py-5">
-                  {item.question}
+                  <span className="flex items-center gap-3">
+                    <HelpCircle className="w-5 h-5 text-primary" />
+                    {item.question}
+                  </span>
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground pb-5">
                   {item.answer}

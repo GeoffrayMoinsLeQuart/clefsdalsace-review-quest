@@ -66,6 +66,29 @@ const PropertyDetail = () => {
         }
       } catch (error) {
         console.error("Erreur lors du chargement du bien:", error);
+        // Fallback local si Sanity n'est pas configuré
+        setProperty({
+          _id: id,
+          title: "Appartement T3 - Centre Strasbourg",
+          slug: { current: id },
+          description: "Magnifique appartement T3 situé en plein centre de Strasbourg, idéal pour la location courte durée.",
+          price: 1800,
+          area: 75,
+          bedrooms: 2,
+          bathrooms: 1,
+          location: "Strasbourg Centre",
+          type: "conciergerie",
+          status: "available",
+          images: [
+            "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1501183638710-841dd1904471?w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&auto=format&fit=crop"
+          ] as any,
+          features: ["Wifi haut débit", "Cuisine équipée", "Lave-linge", "Balcon"],
+          amenities: ["Draps et serviettes fournis", "Produits d'accueil"],
+          revenue: { before: "1800€/mois", after: "2500€/mois", increase: "+39%" },
+          details: { floor: 3, parking: true, elevator: true, balcony: true, furnished: true }
+        } as any);
       } finally {
         setLoading(false);
       }

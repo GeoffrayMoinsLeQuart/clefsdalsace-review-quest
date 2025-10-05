@@ -7,9 +7,15 @@ import Testimonials from "@/components/Testimonials";
 import ContactCTA from "@/components/ContactCTA";
 import EstimationWidget from "@/components/EstimationWidget";
 import RevenueCalculator from "@/components/RevenueCalculator";
+import FAQ from "@/components/FAQ";
 import { Helmet } from "react-helmet";
 
 const Index = () => {
+  const faqItems = [
+    { question: "Comment fonctionne la conciergerie ?", answer: "Nous gérons tout : annonces, réservations, ménage, accueil et optimisation des revenus." },
+    { question: "Puis-je utiliser mon bien quand je veux ?", answer: "Oui, vous gardez la main sur le calendrier et pouvez bloquer des dates à tout moment." },
+    { question: "Quel gain moyen espérer ?", answer: "Entre +30% et +50% vs. location classique selon le bien et la saison." },
+  ];
   return (
     <>
       <Helmet>
@@ -28,6 +34,7 @@ const Index = () => {
         <Hero />
         <ResultsShowcase />
         <Services />
+        <FAQ items={faqItems} title="Questions fréquentes" subtitle="Tout ce qu'il faut savoir pour démarrer" />
         <section id="revenue-calculator" className="py-20 bg-muted/30">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">

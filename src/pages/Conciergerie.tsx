@@ -99,14 +99,11 @@ const Conciergerie = () => {
     },
     {
       name: "Premium",
-      commission: "22%",
+      commission: "20%",
       description: "Notre formule la plus populaire",
       features: [
         "Tout Essentiel +",
-        "Linge de maison inclus",
-        "Optimisation SEO annonces",
         "Reporting détaillé mensuel",
-        "Décoration & aménagement",
         "Maintenance préventive",
         "Assistance 24/7",
         "Conseiller dédié"
@@ -115,17 +112,14 @@ const Conciergerie = () => {
     },
     {
       name: "Exclusive",
-      commission: "25%",
+      commission: "24%",
       description: "Le service premium absolu",
       features: [
         "Tout Premium +",
-        "Linge premium & entretien",
-        "Produits d'accueil haut de gamme",
+        "Linge de maison inclus (linge premium)",
+        "Décoration & aménagement",
         "Conciergerie personnalisée",
-        "Photographe dédié",
-        "Home staging complet",
-        "Service petit-déjeuner",
-        "Chauffeur privé disponible"
+        "Photographe dédié"
       ],
       highlighted: false
     }
