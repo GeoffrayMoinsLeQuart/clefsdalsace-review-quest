@@ -73,7 +73,7 @@ const MultiStepQuestionnaire = () => {
     });
 
     setTimeout(() => {
-      navigate("/contact", { state: { questionnaireData: data } });
+      navigate("/merci", { state: { questionnaireData: data } });
     }, 1500);
   };
 
