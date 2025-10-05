@@ -1,11 +1,47 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FAQ from "@/components/FAQ";
 import { Button } from "@/components/ui/button";
 import { Check, Star, TrendingUp, Shield, Users, Sparkles, Clock, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Conciergerie = () => {
   const navigate = useNavigate();
+  
+  const faqItems = [
+    {
+      question: "Comment fonctionne le calcul de votre commission ?",
+      answer: "Notre commission est calculée uniquement sur les revenus générés. Si vous gagnez 0€, nous gagnons 0€. C'est notre engagement : nous sommes rémunérés au résultat."
+    },
+    {
+      question: "Quelle est la durée d'engagement minimum ?",
+      answer: "Aucun engagement de durée n'est requis. Vous pouvez résilier à tout moment avec un préavis de 30 jours. Notre objectif est de vous satisfaire, pas de vous retenir."
+    },
+    {
+      question: "Combien de temps faut-il pour commencer à recevoir des réservations ?",
+      answer: "Généralement, les premières réservations arrivent dans les 7 à 15 jours suivant la mise en ligne de votre annonce. Nous optimisons votre référencement dès le départ pour des résultats rapides."
+    },
+    {
+      question: "Qui s'occupe du ménage entre chaque location ?",
+      answer: "Nous avons un réseau de professionnels du ménage formés et certifiés. Chaque prestation est contrôlée pour garantir un niveau de qualité constant."
+    },
+    {
+      question: "Comment gérez-vous les problèmes ou dégradations ?",
+      answer: "Nous effectuons un état des lieux systématique après chaque séjour. En cas de dégradation, nous gérons l'ensemble du processus : constat, déclaration, réparations et remboursement via les cautions ou assurances."
+    },
+    {
+      question: "Puis-je utiliser mon logement personnellement pendant la gestion ?",
+      answer: "Absolument ! Vous gardez un contrôle total sur votre calendrier via notre plateforme. Vous pouvez bloquer les dates souhaitées à tout moment pour votre usage personnel."
+    },
+    {
+      question: "Que comprend le linge dans les formules Premium et Exclusive ?",
+      answer: "Le linge inclut draps, taies, serviettes de bain et de toilette. Dans la formule Exclusive, nous fournissons du linge haut de gamme et gérons l'intégralité du lavage et du remplacement."
+    },
+    {
+      question: "Comment puis-je suivre mes revenus et réservations ?",
+      answer: "Vous avez accès 24/7 à votre espace propriétaire en ligne avec un tableau de bord détaillé : réservations, revenus, dépenses, avis clients, et rapports mensuels complets."
+    }
+  ];
   
   const services = [
     {
@@ -49,7 +85,7 @@ const Conciergerie = () => {
   const pricing = [
     {
       name: "Essentiel",
-      commission: "15%",
+      commission: "18%",
       description: "Pour débuter en toute sérénité",
       features: [
         "Gestion des annonces",
@@ -57,26 +93,41 @@ const Conciergerie = () => {
         "Tarification dynamique",
         "Accueil voyageurs",
         "Ménage professionnel",
-        "Linge inclus",
         "Assistance 7j/7"
       ],
       highlighted: false
     },
     {
       name: "Premium",
-      commission: "18%",
-      description: "Notre formule la plus complète",
+      commission: "22%",
+      description: "Notre formule la plus populaire",
       features: [
         "Tout Essentiel +",
+        "Linge de maison inclus",
         "Optimisation SEO annonces",
         "Reporting détaillé mensuel",
         "Décoration & aménagement",
         "Maintenance préventive",
-        "Stock produits inclus",
         "Assistance 24/7",
         "Conseiller dédié"
       ],
       highlighted: true
+    },
+    {
+      name: "Exclusive",
+      commission: "25%",
+      description: "Le service premium absolu",
+      features: [
+        "Tout Premium +",
+        "Linge premium & entretien",
+        "Produits d'accueil haut de gamme",
+        "Conciergerie personnalisée",
+        "Photographe dédié",
+        "Home staging complet",
+        "Service petit-déjeuner",
+        "Chauffeur privé disponible"
+      ],
+      highlighted: false
     }
   ];
 
@@ -286,6 +337,9 @@ const Conciergerie = () => {
             </p>
           </div>
         </section>
+
+        {/* FAQ Section */}
+        <FAQ items={faqItems} />
 
         {/* Final CTA */}
         <section className="py-20 bg-gradient-cta relative overflow-hidden">

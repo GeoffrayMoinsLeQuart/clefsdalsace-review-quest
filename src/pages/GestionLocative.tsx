@@ -1,11 +1,35 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FAQ from "@/components/FAQ";
 import { Button } from "@/components/ui/button";
 import { Check, Shield, TrendingUp, Users, FileCheck, Home, Clock, Euro } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const GestionLocative = () => {
   const navigate = useNavigate();
+  
+  const faqItems = [
+    {
+      question: "Quelle est la différence entre gestion locative et conciergerie ?",
+      answer: "La gestion locative concerne les locations longue durée (bail 12 mois minimum) avec des locataires stables. La conciergerie gère les locations courte durée (Airbnb, Booking) avec un turn-over élevé et des tarifs variables."
+    },
+    {
+      question: "Comment sélectionnez-vous les locataires ?",
+      answer: "Nous vérifions les revenus (3x le loyer minimum), analysons les 3 dernières fiches de paie, contactons les employeurs et anciens propriétaires, et vérifions l'absence de fichage bancaire."
+    },
+    {
+      question: "Que se passe-t-il en cas d'impayé ?",
+      answer: "Nous gérons l'intégralité de la procédure : relances amiables, mise en demeure, procédure judiciaire si nécessaire, et activation de la garantie loyers impayés si souscrite."
+    },
+    {
+      question: "Puis-je résilier le mandat à tout moment ?",
+      answer: "Oui, avec un préavis de 3 mois. Cependant, si un bail est en cours, nous vous recommandons de maintenir notre mandat jusqu'à son terme pour éviter toute confusion avec le locataire."
+    },
+    {
+      question: "Gérez-vous aussi les locations meublées longue durée ?",
+      answer: "Oui, nous gérons également les baux meublés (minimum 12 mois). Les honoraires restent identiques, avec quelques spécificités liées à la réglementation des meublés."
+    }
+  ];
   
   const advantages = [
     {
@@ -352,6 +376,9 @@ const GestionLocative = () => {
             </div>
           </div>
         </section>
+
+        {/* FAQ Section */}
+        <FAQ items={faqItems} />
 
         {/* Final CTA */}
         <section className="py-20 bg-gradient-cta relative overflow-hidden">

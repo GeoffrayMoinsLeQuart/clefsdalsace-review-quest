@@ -13,6 +13,10 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import MentionsLegales from "./pages/MentionsLegales";
+import CGV from "./pages/CGV";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
+import Cookies from "./pages/Cookies";
 import CookieConsent from "./components/CookieConsent";
 
 const queryClient = new QueryClient();
@@ -38,6 +42,10 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/mentions-legales" element={<MentionsLegales />} />
+          <Route path="/conditions-generales-vente" element={<CGV />} />
+          <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+          <Route path="/cookies" element={<Cookies />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
