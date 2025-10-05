@@ -1,8 +1,8 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
-// Configuration Sanity - Remplacez avec vos vraies valeurs
-const SANITY_PROJECT_ID = ''; // Votre projectId ici (ex: 'abc123de')
+// Configuration Sanity
+const SANITY_PROJECT_ID = 'dhg7a8s7';
 const SANITY_DATASET = 'production';
 
 // Créer le client seulement si configuré
