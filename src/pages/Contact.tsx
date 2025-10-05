@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, CheckCircle, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
@@ -10,12 +10,8 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
-    service: "",
-    propertyType: "",
-    city: "",
-    message: ""
+    projectType: ""
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,27 +22,28 @@ const Contact = () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     toast({
-      title: "Message envoyé !",
-      description: "Nous vous recontacterons sous 24h maximum.",
+      title: "✅ Demande envoyée !",
+      description: "Nous vous rappelons dans les 2h. Vous allez recevoir un SMS de confirmation.",
     });
     
     setIsSubmitting(false);
     setFormData({
       name: "",
-      email: "",
       phone: "",
-      service: "",
-      propertyType: "",
-      city: "",
-      message: ""
+      projectType: ""
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
+  };
+
+  const handleWhatsApp = () => {
+    const message = encodeURIComponent(`Bonjour, je suis ${formData.name}. Je souhaite être contacté pour ${formData.projectType || 'une estimation'}.`);
+    window.open(`https://wa.me/33621471922?text=${message}`, '_blank');
   };
 
   return (
@@ -169,15 +166,19 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Contact Form */}
-              <div className="lg:col-span-2">
+              {/* Contact Form - SIMPLIFIÉ */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Quick Contact Form */}
                 <form onSubmit={handleSubmit} className="bg-card rounded-2xl p-8 shadow-elegant">
-                  <h2 className="text-2xl font-bold mb-6">Envoyez-nous un message</h2>
+                  <h2 className="text-2xl font-bold mb-2">Demande de contact express</h2>
+                  <p className="text-muted-foreground mb-6">
+                    Remplissez ces 3 champs, nous vous rappelons dans les <span className="text-accent font-semibold">2h</span>
+                  </p>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div className="space-y-4 mb-6">
                     <div>
                       <label className="block text-sm font-medium mb-2">
-                        Nom complet <span className="text-accent">*</span>
+                        Votre nom <span className="text-accent">*</span>
                       </label>
                       <input
                         type="text"
@@ -185,28 +186,13 @@ const Contact = () => {
                         value={formData.name}
                         onChange={handleChange}
                         required
+                        minLength={2}
+                        maxLength={50}
                         className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                         placeholder="Jean Dupont"
                       />
                     </div>
                     
-                    <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Email <span className="text-accent">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                        placeholder="jean.dupont@email.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                       <label className="block text-sm font-medium mb-2">
                         Téléphone <span className="text-accent">*</span>
@@ -217,97 +203,83 @@ const Contact = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         required
+                        pattern="^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$"
                         className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                         placeholder="06 XX XX XX XX"
                       />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Format: 06 12 34 56 78 ou +33 6 12 34 56 78
+                      </p>
                     </div>
                     
                     <div>
                       <label className="block text-sm font-medium mb-2">
-                        Service souhaité <span className="text-accent">*</span>
+                        Type de projet <span className="text-accent">*</span>
                       </label>
                       <select
-                        name="service"
-                        value={formData.service}
+                        name="projectType"
+                        value={formData.projectType}
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                       >
-                        <option value="">Sélectionnez un service</option>
+                        <option value="">Sélectionnez votre projet</option>
                         <option value="conciergerie">Conciergerie Airbnb</option>
                         <option value="gestion-locative">Gestion Locative</option>
                         <option value="estimation">Estimation gratuite</option>
-                        <option value="autre">Autre</option>
                       </select>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Type de bien</label>
-                      <select
-                        name="propertyType"
-                        value={formData.propertyType}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                      >
-                        <option value="">Sélectionnez</option>
-                        <option value="studio">Studio</option>
-                        <option value="t2">T2</option>
-                        <option value="t3">T3</option>
-                        <option value="t4">T4+</option>
-                        <option value="maison">Maison</option>
-                      </select>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Ville</label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                        placeholder="Mulhouse"
-                      />
-                    </div>
-                  </div>
+                  <div className="space-y-3">
+                    <Button 
+                      type="submit" 
+                      size="lg" 
+                      className="w-full gap-2"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>Envoi en cours...</>
+                      ) : (
+                        <>
+                          <Phone className="w-5 h-5" />
+                          Me faire rappeler sous 2h
+                        </>
+                      )}
+                    </Button>
 
-                  <div className="mb-6">
-                    <label className="block text-sm font-medium mb-2">
-                      Message <span className="text-accent">*</span>
-                    </label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={6}
-                      className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
-                      placeholder="Décrivez-nous votre projet..."
-                    />
+                    <Button
+                      type="button"
+                      onClick={handleWhatsApp}
+                      variant="outline"
+                      size="lg"
+                      className="w-full gap-2 bg-[#25D366]/10 border-[#25D366]/30 text-[#25D366] hover:bg-[#25D366]/20"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Discuter sur WhatsApp maintenant
+                    </Button>
                   </div>
-
-                  <Button 
-                    type="submit" 
-                    size="lg" 
-                    className="w-full gap-2"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <>Envoi en cours...</>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        Envoyer mon message
-                      </>
-                    )}
-                  </Button>
 
                   <p className="text-sm text-muted-foreground text-center mt-4">
-                    En soumettant ce formulaire, vous acceptez d'être recontacté par notre équipe.
+                    ✅ Réponse sous 2h ouvrées • Sans engagement
                   </p>
                 </form>
+
+                {/* Calendly Alternative */}
+                <div className="bg-muted/50 rounded-2xl p-8 text-center">
+                  <h3 className="text-xl font-bold mb-2">Préférez prendre RDV directement ?</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Choisissez un créneau dans notre agenda partagé
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => window.open('https://calendly.com/votre-lien', '_blank')}
+                  >
+                    <Clock className="w-5 h-5 mr-2" />
+                    Réserver un créneau
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

@@ -1,100 +1,88 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { fetchBlogPosts, urlFor } from "@/lib/sanity";
+import { BlogPost } from "@/types/sanity";
+import { useQuery } from "@tanstack/react-query";
 
 const Blog = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-
-  const featuredArticle = {
-    title: "Guide Complet 2025 : Tout savoir sur la Location Courte Durée en Alsace",
-    excerpt: "Réglementation, fiscalité, autorisations : découvrez tout ce qu'il faut savoir pour louer votre bien en meublé touristique dans les règles.",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80",
-    category: "Réglementation",
-    date: "15 Mars 2025",
-    readTime: "12 min",
-    slug: "guide-location-courte-duree-alsace-2025"
-  };
-
-  const articles = [
-    {
-      title: "Optimiser ses revenus Airbnb : 10 astuces de pros",
-      excerpt: "Découvrez les stratégies utilisées par les meilleurs hôtes pour maximiser leur taux d'occupation et leurs revenus locatifs.",
-      image: "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=800&q=80",
-      category: "Conciergerie",
-      date: "10 Mars 2025",
-      readTime: "8 min",
-      slug: "optimiser-revenus-airbnb"
-    },
-    {
-      title: "Gestion Locative : Comment choisir le bon locataire ?",
-      excerpt: "Les critères essentiels pour sélectionner un locataire fiable et éviter les impayés et les problèmes.",
-      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
-      category: "Gestion Locative",
-      date: "5 Mars 2025",
-      readTime: "6 min",
-      slug: "choisir-bon-locataire"
-    },
-    {
-      title: "Fiscalité Location Meublée : LMNP ou LMP ?",
-      excerpt: "Comparatif complet des deux statuts pour optimiser votre fiscalité selon votre situation.",
-      image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80",
-      category: "Fiscalité",
-      date: "28 Février 2025",
-      readTime: "10 min",
-      slug: "fiscalite-lmnp-lmp"
-    },
-    {
-      title: "Investir dans l'immobilier locatif à Strasbourg en 2025",
-      excerpt: "Analyse du marché strasbourgeois, quartiers prometteurs et rentabilité attendue pour les investisseurs.",
-      image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800&q=80",
-      category: "Investissement",
-      date: "20 Février 2025",
-      readTime: "9 min",
-      slug: "investir-strasbourg-2025"
-    },
-    {
-      title: "Décoration Airbnb : Les tendances qui font réserver",
-      excerpt: "Comment aménager et décorer votre bien pour séduire les voyageurs et obtenir d'excellents avis.",
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80",
-      category: "Conciergerie",
-      date: "12 Février 2025",
-      readTime: "7 min",
-      slug: "decoration-airbnb-tendances"
-    },
-    {
-      title: "Assurance Habitation : Bien se protéger en location courte durée",
-      excerpt: "Les garanties indispensables et les pièges à éviter pour une couverture optimale de votre bien.",
-      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80",
-      category: "Assurance",
-      date: "5 Février 2025",
-      readTime: "8 min",
-      slug: "assurance-location-courte-duree"
-    }
-  ];
-
-  const categories = [
-    "Tous les articles",
-    "Conciergerie",
-    "Gestion Locative",
-    "Fiscalité",
-    "Réglementation",
-    "Investissement",
-    "Assurance"
-  ];
-
   const [activeCategory, setActiveCategory] = useState("Tous les articles");
 
-  const filteredArticles = articles.filter(article => {
-    const matchesCategory = activeCategory === "Tous les articles" || article.category === activeCategory;
+  const { data: blogPosts = [], isLoading } = useQuery({
+    queryKey: ['blogPosts'],
+    queryFn: fetchBlogPosts,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const fallbackArticles = [
+    {
+      _id: "1",
+      title: "Guide Complet 2025 : Tout savoir sur la Location Courte Durée en Alsace",
+      slug: { current: "guide-location-courte-duree-alsace-2025" },
+      excerpt: "Réglementation, fiscalité, autorisations : découvrez tout ce qu'il faut savoir pour louer votre bien en meublé touristique dans les règles.",
+      mainImage: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
+      publishedAt: "2025-03-15",
+      author: { name: "MadeIn Immo" },
+      categories: [{ title: "Réglementation", slug: { current: "reglementation" } }],
+    },
+    {
+      _id: "2",
+      title: "Optimiser ses revenus Airbnb : 10 astuces de pros",
+      slug: { current: "optimiser-revenus-airbnb" },
+      excerpt: "Découvrez les stratégies utilisées par les meilleurs hôtes pour maximiser leur taux d'occupation et leurs revenus locatifs.",
+      mainImage: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
+      publishedAt: "2025-03-10",
+      author: { name: "MadeIn Immo" },
+      categories: [{ title: "Conciergerie", slug: { current: "conciergerie" } }],
+    },
+  ];
+
+  const articlesToDisplay = blogPosts.length > 0 ? blogPosts : fallbackArticles;
+  const featuredArticle = articlesToDisplay[0];
+
+  const categories = ["Tous les articles", "Conciergerie", "Gestion Locative", "Fiscalité", "Réglementation", "Investissement"];
+
+  const otherArticles = articlesToDisplay.slice(1);
+
+  const filteredArticles = otherArticles.filter(article => {
+    const articleCategory = article.categories?.[0]?.title || "";
+    const matchesCategory = activeCategory === "Tous les articles" || articleCategory === activeCategory;
     const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  };
+
+  const getImageUrl = (image: any) => {
+    if (!image) return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
+    try {
+      return urlFor(image).width(800).url();
+    } catch {
+      return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center">
+          <p className="text-xl text-muted-foreground">Chargement des articles...</p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -157,61 +145,61 @@ const Blog = () => {
         <section className="py-16 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
-              <div 
-                className="group cursor-pointer"
-                onClick={() => navigate(`/blog/${featuredArticle.slug}`)}
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-card rounded-2xl overflow-hidden shadow-service hover:shadow-elegant transition-all duration-300">
-                  <div className="relative h-80 lg:h-auto overflow-hidden">
-                    <img 
-                      src={featuredArticle.image} 
-                      alt={featuredArticle.title}
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="px-4 py-2 bg-accent text-white rounded-full text-sm font-semibold">
-                        Article vedette
+                <div 
+                  className="group cursor-pointer"
+                  onClick={() => navigate(`/blog/${featuredArticle.slug.current}`)}
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-card rounded-2xl overflow-hidden shadow-service hover:shadow-elegant transition-all duration-300">
+                    <div className="relative h-80 lg:h-auto overflow-hidden">
+                      <img 
+                        src={getImageUrl(featuredArticle.mainImage)} 
+                        alt={featuredArticle.title}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <span className="px-4 py-2 bg-accent text-white rounded-full text-sm font-semibold">
+                          Article vedette
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="p-8 lg:p-12 flex flex-col justify-center">
+                      <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4 w-fit">
+                        {featuredArticle.categories?.[0]?.title || "Article"}
                       </span>
-                    </div>
-                  </div>
-                  
-                  <div className="p-8 lg:p-12 flex flex-col justify-center">
-                    <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4 w-fit">
-                      {featuredArticle.category}
-                    </span>
-                    
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 group-hover:text-primary transition-colors">
-                      {featuredArticle.title}
-                    </h2>
-                    
-                    <p className="text-muted-foreground text-lg mb-6">
-                      {featuredArticle.excerpt}
-                    </p>
-                    
-                    <div className="flex items-center gap-6 text-sm text-muted-foreground mb-6">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        <span>{featuredArticle.date}</span>
+                      
+                      <h2 className="text-3xl md:text-4xl font-bold mb-4 group-hover:text-primary transition-colors">
+                        {featuredArticle.title}
+                      </h2>
+                      
+                      <p className="text-muted-foreground text-lg mb-6">
+                        {featuredArticle.excerpt}
+                      </p>
+                      
+                      <div className="flex items-center gap-6 text-sm text-muted-foreground mb-6">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          <span>{formatDate(featuredArticle.publishedAt)}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          <span>8 min de lecture</span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        <span>{featuredArticle.readTime} de lecture</span>
-                      </div>
+                      
+                      <Button 
+                        className="w-fit group/btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/blog/${featuredArticle.slug.current}`);
+                        }}
+                      >
+                        Lire l'article
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                      </Button>
                     </div>
-                    
-                    <Button 
-                      className="w-fit group/btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/blog/${featuredArticle.slug}`);
-                      }}
-                    >
-                      Lire l'article
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                    </Button>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         </section>
@@ -228,21 +216,21 @@ const Blog = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filteredArticles.map((article, index) => (
+                  {filteredArticles.map((article) => (
                     <div 
-                      key={index}
+                      key={article._id}
                       className="group bg-card rounded-2xl overflow-hidden shadow-service hover:shadow-elegant transition-all duration-300 cursor-pointer"
-                      onClick={() => navigate(`/blog/${article.slug}`)}
+                      onClick={() => navigate(`/blog/${article.slug.current}`)}
                     >
                       <div className="relative h-52 overflow-hidden">
                         <img 
-                          src={article.image} 
+                          src={getImageUrl(article.mainImage)} 
                           alt={article.title}
                           className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute top-4 left-4">
                           <span className="px-3 py-1 bg-primary/90 backdrop-blur-sm text-white rounded-full text-sm font-semibold">
-                            {article.category}
+                            {article.categories?.[0]?.title || "Article"}
                           </span>
                         </div>
                       </div>
@@ -259,11 +247,11 @@ const Blog = () => {
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
-                            <span>{article.date}</span>
+                            <span>{formatDate(article.publishedAt)}</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <Clock className="w-4 h-4" />
-                            <span>{article.readTime}</span>
+                            <span>8 min</span>
                           </div>
                         </div>
                       </div>

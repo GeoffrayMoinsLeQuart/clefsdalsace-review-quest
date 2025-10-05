@@ -28,6 +28,28 @@ export const urlFor = (source: any) => {
   return builder.image(source);
 };
 
+// Query pour récupérer les statistiques globales
+export const fetchStats = async () => {
+  if (!sanityClient) {
+    // Fallback avec statistiques par défaut
+    return {
+      totalProperties: 50,
+      totalRevenue: 2100000,
+      averageIncrease: 47,
+      occupancyRate: 83,
+    };
+  }
+  
+  const query = `{
+    "totalProperties": count(*[_type == "property"]),
+    "totalRevenue": 2100000,
+    "averageIncrease": 47,
+    "occupancyRate": 83
+  }`;
+  
+  return await sanityClient.fetch(query);
+};
+
 // Query pour récupérer tous les biens
 export const fetchProperties = async () => {
   if (!sanityClient) {

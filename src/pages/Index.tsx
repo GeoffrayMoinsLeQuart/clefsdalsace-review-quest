@@ -8,6 +8,8 @@ import ContactCTA from "@/components/ContactCTA";
 import EstimationWidget from "@/components/EstimationWidget";
 import RevenueCalculator from "@/components/RevenueCalculator";
 import FAQ from "@/components/FAQ";
+import GuaranteesSection from "@/components/GuaranteesSection";
+import ResultsSection from "@/components/ResultsSection";
 import { Helmet } from "react-helmet";
 
 const Index = () => {
@@ -33,7 +35,9 @@ const Index = () => {
       <main className="min-h-screen">
         <Hero />
         <ResultsShowcase />
+        <ResultsSection />
         <Services />
+        <GuaranteesSection />
         <FAQ items={faqItems} title="Questions fréquentes" subtitle="Tout ce qu'il faut savoir pour démarrer" />
         <section id="revenue-calculator" className="py-20 bg-muted/30">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">

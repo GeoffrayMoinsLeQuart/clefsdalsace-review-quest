@@ -1,19 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Phone, Star, Calculator } from "lucide-react";
+import { ArrowRight, Phone, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import MultiStepQuestionnaire from "./MultiStepQuestionnaire";
 
 const Hero = () => {
   const navigate = useNavigate();
   
-  const scrollToCalculator = () => {
-    const calculatorSection = document.getElementById('revenue-calculator');
-    if (calculatorSection) {
-      calculatorSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-  
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden py-20">
       {/* Background avec gradient alsacien */}
       <div className="absolute inset-0 bg-gradient-hero" />
       
@@ -30,11 +24,11 @@ const Hero = () => {
           <div className="flex flex-wrap gap-4 mb-8 animate-fade-in">
             <div className="bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full shadow-elegant flex items-center gap-2">
               <Phone className="w-5 h-5 text-primary" />
-              <span className="font-semibold text-sm">Réponse en 24h</span>
+              <span className="font-semibold text-sm">Réponse sous 2h</span>
             </div>
             <div className="bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full shadow-elegant flex items-center gap-2">
               <Star className="w-5 h-5 text-accent" fill="currentColor" />
-              <span className="font-semibold text-sm">Conseiller dédié</span>
+              <span className="font-semibold text-sm">+50 propriétaires clients</span>
             </div>
           </div>
           
@@ -47,51 +41,13 @@ const Hero = () => {
           {/* Subheadline avec chiffres impactants */}
           <p className="text-xl md:text-2xl text-white/90 mb-8 font-medium animate-fade-in">
             <span className="text-accent font-bold">+40% de revenus</span> dès le 1er mois | 
-            Mulhouse & environs | 
-            <span className="text-accent font-bold"> €2.1M</span> générés
+            Mulhouse & Alsace | 
+            <span className="text-accent font-bold"> €2.1M</span> générés pour nos clients
           </p>
           
-          {/* Mini formulaire inline */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-elegant mb-8 animate-scale-in">
-            <h3 className="text-lg font-semibold mb-4 text-gray-900">
-              Estimez vos revenus en 2 minutes
-            </h3>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="text"
-                placeholder="Votre nom"
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-              />
-              <input
-                type="tel"
-                placeholder="Téléphone"
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-              />
-              <input
-                type="text"
-                placeholder="Type de bien"
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-              />
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 mt-4">
-              <Button 
-                size="lg" 
-                className="bg-primary hover:bg-primary/90 text-white px-8 group"
-                onClick={scrollToCalculator}
-              >
-                <Calculator className="mr-2 w-5 h-5" />
-                Calculer mes revenus
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="border-2 border-white text-gray-900 bg-white hover:bg-gray-50 px-8"
-                onClick={() => navigate('/contact')}
-              >
-                Me faire rappeler
-              </Button>
-            </div>
+          {/* Questionnaire multi-étapes */}
+          <div className="mb-8 animate-scale-in">
+            <MultiStepQuestionnaire />
           </div>
           
           {/* Social proof */}
