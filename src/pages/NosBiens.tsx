@@ -1,98 +1,114 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Filter, TrendingUp, Home, Bed, Square, ArrowRight } from "lucide-react";
+import { fetchProperties, urlFor } from "@/lib/sanity";
+import { Property } from "@/types/sanity";
 
 const NosBiens = () => {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const properties = [
-    {
-      id: 1,
-      title: "Tour de l'Europe - T3 90m² Vue Panoramique",
-      type: "conciergerie",
-      surface: 90,
-      bedrooms: 2,
-      city: "Mulhouse",
-      revenue: 2100,
-      occupancy: 70,
-      increase: "+40%",
-      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&auto=format&fit=crop",
-      description: "Appartement premium au 8ème étage avec vue imprenable. Hausse de 40% des revenus après notre prise en charge."
-    },
-    {
-      id: 2,
-      title: "Centre Mulhouse - T3 Cosy & Moderne",
-      type: "conciergerie",
-      surface: 50,
-      bedrooms: 2,
-      city: "Mulhouse",
-      revenue: 1600,
-      occupancy: 80,
-      increase: "+30%",
-      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop",
-      description: "Optimisation complète réalisée. +30% de revenus grâce à notre stratégie de valorisation."
-    },
-    {
-      id: 3,
-      title: "Rue Franklin - T3 Lumineux Meublé",
-      type: "gestion-locative",
-      surface: 65,
-      bedrooms: 2,
-      city: "Mulhouse",
-      revenue: 820,
-      occupancy: 100,
-      increase: "+300€",
-      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&auto=format&fit=crop",
-      description: "Location longue durée valorisée. +300€ de loyer mensuel après transformation."
-    },
-    {
-      id: 4,
-      title: "Colmar Centre - Studio Design",
-      type: "conciergerie",
-      surface: 35,
-      bedrooms: 1,
-      city: "Colmar",
-      revenue: 950,
-      occupancy: 75,
-      increase: "+25%",
-      image: "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=800&auto=format&fit=crop",
-      description: "Studio optimisé pour location courte durée. Excellent rendement."
-    },
-    {
-      id: 5,
-      title: "Strasbourg Petite France - T2",
-      type: "conciergerie",
-      surface: 55,
-      bedrooms: 1,
-      city: "Strasbourg",
-      revenue: 1800,
-      occupancy: 85,
-      increase: "+35%",
-      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&auto=format&fit=crop",
-      description: "Emplacement premium, gestion optimale. Taux d'occupation exceptionnel."
-    },
-    {
-      id: 6,
-      title: "Mulhouse Rebberg - T4 Familial",
-      type: "gestion-locative",
-      surface: 95,
-      bedrooms: 3,
-      city: "Mulhouse",
-      revenue: 1100,
-      occupancy: 100,
-      increase: "+200€",
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop",
-      description: "Grand appartement en location longue durée. Locataire stable et fiable."
-    }
-  ];
+  useEffect(() => {
+    const loadProperties = async () => {
+      try {
+        const data = await fetchProperties();
+        setProperties(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des biens:", error);
+        // Fallback data if Sanity fails
+        setProperties([
+          {
+            _id: "1",
+            title: "Tour de l'Europe - T3 90m² Vue Panoramique",
+            slug: { current: "tour-europe-t3" },
+            type: "conciergerie",
+            area: 90,
+            bedrooms: 2,
+            bathrooms: 1,
+            location: "Mulhouse",
+            price: 2100,
+            status: "available",
+            description: "Appartement premium au 8ème étage avec vue imprenable. Hausse de 40% des revenus après notre prise en charge.",
+            images: [],
+            features: ["Vue panoramique", "Balcon", "Parking"],
+            revenue: {
+              before: "1500€/mois",
+              after: "2100€/mois",
+              increase: "+40%"
+            }
+          },
+          {
+            _id: "2",
+            title: "Centre Mulhouse - T3 Cosy & Moderne",
+            slug: { current: "centre-mulhouse-t3" },
+            type: "conciergerie",
+            area: 50,
+            bedrooms: 2,
+            bathrooms: 1,
+            location: "Mulhouse",
+            price: 1600,
+            status: "available",
+            description: "Optimisation complète réalisée. +30% de revenus grâce à notre stratégie de valorisation.",
+            images: [],
+            features: ["Centre ville", "Rénové", "Équipé"],
+            revenue: {
+              before: "1230€/mois",
+              after: "1600€/mois",
+              increase: "+30%"
+            }
+          },
+          {
+            _id: "3",
+            title: "Rue Franklin - T3 Lumineux Meublé",
+            slug: { current: "rue-franklin-t3" },
+            type: "gestion-locative",
+            area: 65,
+            bedrooms: 2,
+            bathrooms: 1,
+            location: "Mulhouse",
+            price: 820,
+            status: "available",
+            description: "Location longue durée valorisée. +300€ de loyer mensuel après transformation.",
+            images: [],
+            features: ["Lumineux", "Meublé", "Calme"],
+            revenue: {
+              before: "520€/mois",
+              after: "820€/mois",
+              increase: "+300€"
+            }
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProperties();
+  }, []);
 
   const filteredProperties = activeFilter === "all" 
     ? properties 
-    : properties.filter(p => p.type === activeFilter);
+    : properties.filter((p: Property) => p.type === activeFilter);
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Chargement des biens...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -155,14 +171,14 @@ const NosBiens = () => {
                   onClick={() => setActiveFilter("conciergerie")}
                   size="sm"
                 >
-                  Conciergerie ({properties.filter(p => p.type === "conciergerie").length})
+                  Conciergerie ({properties.filter((p: Property) => p.type === "conciergerie").length})
                 </Button>
                 <Button
                   variant={activeFilter === "gestion-locative" ? "default" : "outline"}
                   onClick={() => setActiveFilter("gestion-locative")}
                   size="sm"
                 >
-                  Gestion Locative ({properties.filter(p => p.type === "gestion-locative").length})
+                  Gestion Locative ({properties.filter((p: Property) => p.type === "gestion-locative").length})
                 </Button>
               </div>
             </div>
@@ -173,73 +189,77 @@ const NosBiens = () => {
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProperties.map((property) => (
-                <div 
-                  key={property.id}
-                  className="group bg-card rounded-2xl overflow-hidden shadow-service hover:shadow-elegant transition-all duration-300 hover:-translate-y-2"
-                >
-                  <div className="relative h-64 overflow-hidden">
-                    <img 
-                      src={property.image} 
-                      alt={property.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4 bg-accent text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg">
-                      {property.increase}
-                    </div>
-                    <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
-                      {property.type === "conciergerie" ? "Conciergerie" : "Gestion Locative"}
-                    </div>
-                  </div>
+              {filteredProperties.map((property) => {
+                const imageUrl = property.images && property.images.length > 0 
+                  ? urlFor(property.images[0]).width(800).url()
+                  : "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&auto=format&fit=crop";
                   
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                      {property.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {property.description}
-                    </p>
-                    
-                    <div className="grid grid-cols-3 gap-4 mb-4 pb-4 border-b border-border">
-                      <div className="text-center">
-                        <Square className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
-                        <div className="text-sm font-semibold">{property.surface}m²</div>
-                      </div>
-                      <div className="text-center">
-                        <Bed className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
-                        <div className="text-sm font-semibold">{property.bedrooms} ch.</div>
-                      </div>
-                      <div className="text-center">
-                        <Home className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
-                        <div className="text-sm font-semibold">{property.city}</div>
+                return (
+                  <div 
+                    key={property._id}
+                    className="group bg-card rounded-2xl overflow-hidden shadow-service hover:shadow-elegant transition-all duration-300 hover:-translate-y-2"
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img 
+                        src={imageUrl} 
+                        alt={property.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      {property.revenue && (
+                        <div className="absolute top-4 right-4 bg-accent text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg">
+                          {property.revenue.increase}
+                        </div>
+                      )}
+                      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
+                        {property.type === "conciergerie" ? "Conciergerie" : "Gestion Locative"}
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Revenu mensuel :</span>
-                        <span className="font-bold text-lg text-primary flex items-center gap-1">
-                          {property.revenue}€
-                          <TrendingUp className="w-4 h-4 text-accent" />
-                        </span>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                        {property.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {property.description}
+                      </p>
+                      
+                      <div className="grid grid-cols-3 gap-4 mb-4 pb-4 border-b border-border">
+                        <div className="text-center">
+                          <Square className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
+                          <div className="text-sm font-semibold">{property.area}m²</div>
+                        </div>
+                        <div className="text-center">
+                          <Bed className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
+                          <div className="text-sm font-semibold">{property.bedrooms} ch.</div>
+                        </div>
+                        <div className="text-center">
+                          <Home className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
+                          <div className="text-sm font-semibold">{property.location}</div>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Taux d'occupation :</span>
-                        <span className="font-semibold">{property.occupancy}%</span>
+                      
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-muted-foreground">Revenu mensuel :</span>
+                          <span className="font-bold text-lg text-primary flex items-center gap-1">
+                            {property.price}€
+                            <TrendingUp className="w-4 h-4 text-accent" />
+                          </span>
+                        </div>
                       </div>
+                      
+                      <Button 
+                        variant="outline" 
+                        className="w-full mt-6 group-hover:bg-primary group-hover:text-white transition-colors"
+                        onClick={() => navigate(`/nos-biens/${property.slug?.current || property._id}`)}
+                      >
+                        Voir le détail
+                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
                     </div>
-                    
-                    <Button 
-                      variant="outline" 
-                      className="w-full mt-6 group-hover:bg-primary group-hover:text-white transition-colors"
-                      onClick={() => navigate(`/nos-biens/${property.id}`)}
-                    >
-                      Voir le détail
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

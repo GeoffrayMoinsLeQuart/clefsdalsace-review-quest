@@ -1,265 +1,271 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MapPin, Maximize2, BedDouble, TrendingUp, Calendar, Users } from "lucide-react";
+import { MapPin, Home, Bed, Bath, TrendingUp, Check, ArrowLeft } from "lucide-react";
+import { fetchPropertyBySlug, urlFor } from "@/lib/sanity";
+import { Property } from "@/types/sanity";
 
 const PropertyDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [property, setProperty] = useState<Property | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Données de propriétés (à synchroniser avec NosBiens.tsx)
-  const properties = [
-    {
-      id: "1",
-      title: "Appartement Cosy - Centre Strasbourg",
-      type: "conciergerie",
-      surface: 45,
-      bedrooms: 1,
-      city: "Strasbourg",
-      revenue: 1850,
-      occupancy: 89,
-      increase: 42,
-      description: "Appartement entièrement rénové au cœur du centre historique de Strasbourg. Parfait pour les séjours courts.",
-      images: [
-        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
-        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
-        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800"
-      ],
-      amenities: ["WiFi Haut Débit", "Cuisine équipée", "Linge fourni", "Ménage inclus", "Check-in autonome"],
-      address: "15 Rue du Vieux Marché aux Poissons",
-      year: 2023
-    },
-    {
-      id: "2",
-      title: "Studio Moderne - Quartier Gare",
-      type: "gestion-locative",
-      surface: 32,
-      bedrooms: 1,
-      city: "Strasbourg",
-      revenue: 750,
-      occupancy: 100,
-      increase: 18,
-      description: "Studio optimisé pour la location longue durée, proche de toutes commodités.",
-      images: [
-        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
-        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800"
-      ],
-      amenities: ["Parking", "Cave", "Balcon", "Double vitrage"],
-      address: "8 Boulevard de Nancy",
-      year: 2022
-    },
-    {
-      id: "3",
-      title: "Maison Familiale - Petite France",
-      type: "conciergerie",
-      surface: 120,
-      bedrooms: 3,
-      city: "Strasbourg",
-      revenue: 3200,
-      occupancy: 85,
-      increase: 55,
-      description: "Maison de caractère avec vue sur l'Ill, idéale pour les familles.",
-      images: [
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800",
-        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"
-      ],
-      amenities: ["Jardin", "Terrasse", "Cheminée", "Parking privé", "WiFi", "Lave-vaisselle"],
-      address: "22 Rue du Bain aux Plantes",
-      year: 2023
-    }
-  ];
+  useEffect(() => {
+    const loadProperty = async () => {
+      if (!id) return;
+      
+      try {
+        const data = await fetchPropertyBySlug(id);
+        if (data) {
+          setProperty(data);
+        } else {
+          // Fallback data
+          setProperty({
+            _id: id,
+            title: "Appartement T3 - Centre Strasbourg",
+            slug: { current: id },
+            description: "Magnifique appartement T3 situé en plein centre de Strasbourg, idéalement placé pour la location courte durée. Entièrement rénové avec goût, il offre tout le confort moderne pour accueillir vos voyageurs dans les meilleures conditions.",
+            price: 1800,
+            area: 75,
+            bedrooms: 2,
+            bathrooms: 1,
+            location: "Strasbourg Centre",
+            type: "conciergerie",
+            status: "available",
+            images: [],
+            features: [
+              "Wifi haut débit",
+              "Cuisine équipée",
+              "Lave-linge",
+              "Parking privé",
+              "Balcon",
+              "Proximité transports"
+            ],
+            amenities: [
+              "Draps et serviettes fournis",
+              "Produits d'accueil",
+              "Netflix inclus",
+              "Guide touristique"
+            ],
+            revenue: {
+              before: "1800€/mois",
+              after: "2500€/mois",
+              increase: "+39%"
+            },
+            details: {
+              floor: 3,
+              parking: true,
+              elevator: true,
+              balcony: true,
+              furnished: true
+            }
+          });
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement du bien:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const property = properties.find(p => p.id === id);
+    loadProperty();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Chargement...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   if (!property) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Bien non trouvé</h1>
-          <Button onClick={() => navigate("/nos-biens")}>Retour aux biens</Button>
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">Bien non trouvé</h2>
+            <Button onClick={() => navigate('/nos-biens')}>
+              Retour à nos biens
+            </Button>
+          </div>
         </div>
-      </div>
+        <Footer />
+      </>
     );
   }
+
+  const mainImage = property.images && property.images.length > 0
+    ? urlFor(property.images[0]).width(1200).url()
+    : "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&auto=format&fit=crop";
 
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20">
+      <main className="pt-20">
         {/* Breadcrumb */}
-        <section className="bg-muted/30 py-4">
-          <div className="max-w-7xl mx-auto px-4">
-            <button
+        <section className="bg-muted/30 py-6">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <Button 
+              variant="ghost" 
               onClick={() => navigate("/nos-biens")}
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
               Retour aux biens
-            </button>
+            </Button>
           </div>
         </section>
 
-        {/* Gallery */}
-        <section className="py-8">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-                <img
-                  src={property.images[0]}
+        {/* Hero Image */}
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-8">
+              <div className="relative h-[500px] rounded-3xl overflow-hidden">
+                <img 
+                  src={mainImage} 
                   alt={property.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                {property.images.slice(1, 3).map((img, idx) => (
-                  <div key={idx} className="relative aspect-square rounded-xl overflow-hidden">
-                    <img
-                      src={img}
-                      alt={`${property.title} ${idx + 2}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+
+              {property.images && property.images.length > 1 && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                  {property.images.slice(1, 4).map((img, index) => (
+                    <img 
+                      key={index}
+                      src={urlFor(img).width(800).url()}
+                      alt={`${property.title} ${index + 2}`}
+                      className="w-full h-64 object-cover rounded-xl hover:scale-105 transition-transform duration-300"
                     />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Property Details */}
+        <section className="py-12 bg-background">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="lg:col-span-2">
+                <div className="mb-8">
+                  <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full mb-4">
+                    {property.type === 'conciergerie' ? 'Conciergerie' : 'Gestion Locative'}
+                  </span>
+                  <h1 className="text-4xl md:text-5xl font-bold mb-4">{property.title}</h1>
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <MapPin className="w-5 h-5" />
+                    <span className="text-lg">{property.location}</span>
                   </div>
-                ))}
-                {property.images.length > 3 && (
-                  <div className="relative aspect-square rounded-xl overflow-hidden bg-black/60 flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
-                    <span className="text-white text-lg font-semibold">+{property.images.length - 3} photos</span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-6 mb-8 p-6 bg-muted/30 rounded-2xl">
+                  <div className="text-center">
+                    <Home className="w-6 h-6 mx-auto mb-2 text-primary" />
+                    <div className="text-2xl font-bold">{property.area}m²</div>
+                    <div className="text-sm text-muted-foreground">Surface</div>
+                  </div>
+                  <div className="text-center">
+                    <Bed className="w-6 h-6 mx-auto mb-2 text-primary" />
+                    <div className="text-2xl font-bold">{property.bedrooms}</div>
+                    <div className="text-sm text-muted-foreground">Chambres</div>
+                  </div>
+                  <div className="text-center">
+                    <Bath className="w-6 h-6 mx-auto mb-2 text-primary" />
+                    <div className="text-2xl font-bold">{property.bathrooms}</div>
+                    <div className="text-sm text-muted-foreground">Salles de bain</div>
+                  </div>
+                </div>
+
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold mb-4">Description</h2>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {property.description}
+                  </p>
+                </div>
+
+                {property.features && property.features.length > 0 && (
+                  <div className="mb-8">
+                    <h3 className="text-xl font-bold mb-4">Caractéristiques</h3>
+                    <ul className="grid grid-cols-2 gap-3">
+                      {property.features.map((feature, index) => (
+                        <li key={index} className="flex items-center gap-2">
+                          <Check className="w-5 h-5 text-primary" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {property.amenities && property.amenities.length > 0 && (
+                  <div className="mb-8">
+                    <h3 className="text-xl font-bold mb-4">Équipements inclus</h3>
+                    <ul className="space-y-2">
+                      {property.amenities.map((amenity, index) => (
+                        <li key={index} className="flex items-center gap-2">
+                          <Check className="w-5 h-5 text-accent" />
+                          <span>{amenity}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main content */}
-              <div className="lg:col-span-2 space-y-8">
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      property.type === "conciergerie"
-                        ? "bg-primary/10 text-primary"
-                        : "bg-accent/10 text-accent"
-                    }`}>
-                      {property.type === "conciergerie" ? "Conciergerie" : "Gestion Locative"}
-                    </span>
-                    <span className="text-sm text-muted-foreground flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      Depuis {property.year}
-                    </span>
-                  </div>
-
-                  <h1 className="text-4xl font-bold mb-4">{property.title}</h1>
-                  
-                  <div className="flex items-center gap-2 text-muted-foreground mb-6">
-                    <MapPin className="w-5 h-5" />
-                    <span>{property.address}, {property.city}</span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-6 py-4 border-y border-border">
-                    <div className="flex items-center gap-2">
-                      <Maximize2 className="w-5 h-5 text-primary" />
-                      <div>
-                        <span className="text-2xl font-bold">{property.surface}</span>
-                        <span className="text-sm text-muted-foreground ml-1">m²</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <BedDouble className="w-5 h-5 text-primary" />
-                      <div>
-                        <span className="text-2xl font-bold">{property.bedrooms}</span>
-                        <span className="text-sm text-muted-foreground ml-1">chambre{property.bedrooms > 1 ? 's' : ''}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-accent" />
-                      <div>
-                        <span className="text-2xl font-bold text-accent">+{property.increase}%</span>
-                        <span className="text-sm text-muted-foreground ml-1">de revenus</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="text-2xl font-bold mb-4">Description</h2>
-                  <p className="text-muted-foreground leading-relaxed">{property.description}</p>
-                </div>
-
-                <div>
-                  <h2 className="text-2xl font-bold mb-4">Équipements</h2>
-                  <div className="grid grid-cols-2 gap-3">
-                    {property.amenities.map((amenity, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-muted-foreground">
-                        <div className="w-2 h-2 rounded-full bg-primary" />
-                        <span>{amenity}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Sidebar */}
               <div className="lg:col-span-1">
-                <div className="sticky top-24 bg-card rounded-2xl p-6 shadow-service border border-border/50 space-y-6">
-                  <div>
-                    <h3 className="text-sm font-semibold text-muted-foreground mb-2">Revenus mensuels</h3>
-                    <p className="text-3xl font-bold text-primary">{property.revenue}€</p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-semibold text-muted-foreground mb-2">Taux d'occupation</h3>
-                    <div className="flex items-end gap-2">
-                      <p className="text-3xl font-bold">{property.occupancy}%</p>
-                      <Users className="w-5 h-5 text-muted-foreground mb-1" />
-                    </div>
-                  </div>
-
-                  <div className="pt-6 border-t border-border space-y-3">
-                    <Button className="w-full" size="lg" onClick={() => navigate("/contact")}>
-                      Je veux les mêmes résultats
-                    </Button>
-                    <Button variant="outline" className="w-full" size="lg" onClick={() => navigate("/")}>
-                      Faire une estimation
-                    </Button>
-                  </div>
-
-                  <div className="pt-6 border-t border-border">
-                    <p className="text-sm text-muted-foreground text-center">
-                      Un projet similaire ? Nous analysons votre bien gratuitement.
-                    </p>
-                  </div>
+                <div className="bg-gradient-hero text-white p-8 rounded-2xl shadow-glow sticky top-24">
+                  <h3 className="text-2xl font-bold mb-6">Performance Locative</h3>
+                  
+                  {property.revenue ? (
+                    <>
+                      <div className="space-y-4 mb-6">
+                        <div className="flex justify-between items-center">
+                          <span className="text-white/90">Revenus actuels</span>
+                          <span className="text-xl font-semibold line-through">{property.revenue.before}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-white/90">Revenus estimés</span>
+                          <span className="text-3xl font-bold text-accent">{property.revenue.after}</span>
+                        </div>
+                        <div className="pt-4 border-t border-white/20">
+                          <div className="flex items-center justify-between">
+                            <span className="text-white/90">Augmentation</span>
+                            <div className="flex items-center gap-2">
+                              <TrendingUp className="w-6 h-6 text-accent" />
+                              <span className="text-2xl font-bold text-accent">{property.revenue.increase}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-white/90 mb-6">Contactez-nous pour une estimation personnalisée</p>
+                  )}
+                  
+                  <Button 
+                    size="lg" 
+                    variant="secondary" 
+                    className="w-full"
+                    onClick={() => navigate('/contact')}
+                  >
+                    Demander une estimation
+                  </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Final */}
-        <section className="py-20 bg-gradient-cta">
-          <div className="max-w-4xl mx-auto px-4 text-center text-white">
-            <h2 className="text-4xl font-bold mb-6">
-              Envie des mêmes résultats pour votre bien ?
-            </h2>
-            <p className="text-xl mb-8 text-white/90">
-              Demandez une estimation gratuite et découvrez le potentiel de votre propriété.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                variant="secondary"
-                className="text-lg px-8"
-                onClick={() => navigate("/contact")}
-              >
-                Demander une estimation
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="text-lg px-8 bg-white/10 border-white text-white hover:bg-white/20"
-                onClick={() => navigate("/nos-biens")}
-              >
-                Voir plus de biens
-              </Button>
             </div>
           </div>
         </section>

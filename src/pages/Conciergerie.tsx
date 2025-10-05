@@ -2,8 +2,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Check, Star, TrendingUp, Shield, Users, Sparkles, Clock, Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Conciergerie = () => {
+  const navigate = useNavigate();
+  
   const services = [
     {
       icon: Home,
@@ -125,10 +128,20 @@ const Conciergerie = () => {
                 Zéro stress, revenus maximisés, expérience 5 étoiles garantie.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary" className="gap-2 text-lg px-8">
+                <Button 
+                  size="lg" 
+                  variant="secondary" 
+                  className="gap-2 text-lg px-8"
+                  onClick={() => navigate('/contact')}
+                >
                   Demander une estimation
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2 text-lg px-8 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="gap-2 text-lg px-8 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary"
+                  onClick={() => navigate('/nos-biens')}
+                >
                   Voir nos biens
                 </Button>
               </div>
@@ -259,6 +272,7 @@ const Conciergerie = () => {
                     size="lg" 
                     variant={plan.highlighted ? "secondary" : "default"}
                     className="w-full"
+                    onClick={() => navigate('/contact')}
                   >
                     Choisir {plan.name}
                   </Button>
@@ -290,7 +304,12 @@ const Conciergerie = () => {
                 Obtenez une estimation gratuite et personnalisée en moins de 24h
               </p>
               
-              <Button size="lg" variant="secondary" className="gap-2 text-lg px-8">
+              <Button 
+                size="lg" 
+                variant="secondary" 
+                className="gap-2 text-lg px-8"
+                onClick={() => navigate('/contact')}
+              >
                 Demander mon estimation gratuite
               </Button>
             </div>

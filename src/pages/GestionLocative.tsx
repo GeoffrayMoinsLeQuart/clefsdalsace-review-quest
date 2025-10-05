@@ -2,8 +2,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Check, Shield, TrendingUp, Users, FileCheck, Home, Clock, Euro } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const GestionLocative = () => {
+  const navigate = useNavigate();
+  
   const advantages = [
     {
       icon: Shield,
@@ -125,10 +128,20 @@ const GestionLocative = () => {
                 Zéro tracas administratif, revenus sécurisés, conformité garantie.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary" className="gap-2 text-lg px-8">
+                <Button 
+                  size="lg" 
+                  variant="secondary" 
+                  className="gap-2 text-lg px-8"
+                  onClick={() => navigate('/contact')}
+                >
                   Demander un devis gratuit
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2 text-lg px-8 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="gap-2 text-lg px-8 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary"
+                  onClick={() => navigate('/contact')}
+                >
                   Estimer mon loyer
                 </Button>
               </div>
@@ -259,6 +272,7 @@ const GestionLocative = () => {
                     size="lg" 
                     variant={plan.highlighted ? "secondary" : "default"}
                     className="w-full"
+                    onClick={() => navigate('/contact')}
                   >
                     Choisir {plan.name}
                   </Button>
@@ -356,7 +370,12 @@ const GestionLocative = () => {
                 Obtenez une estimation de loyer gratuite et un devis personnalisé en moins de 24h
               </p>
               
-              <Button size="lg" variant="secondary" className="gap-2 text-lg px-8">
+              <Button 
+                size="lg" 
+                variant="secondary" 
+                className="gap-2 text-lg px-8"
+                onClick={() => navigate('/contact')}
+              >
                 Demander mon devis gratuit
               </Button>
             </div>
