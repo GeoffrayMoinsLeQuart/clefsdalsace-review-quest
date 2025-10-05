@@ -57,9 +57,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <CookieConsent />
-      <CallButton />
       <BrowserRouter>
         <AnalyticsTracker />
+        <CallButton />
         <noscript>
           <iframe 
             src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
