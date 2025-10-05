@@ -47,6 +47,15 @@ const Merci = () => {
               {questionnaireData.objective && (
                 <p><span className="font-medium">Objectif :</span> {questionnaireData.objective}</p>
               )}
+              {questionnaireData.name && (
+                <p><span className="font-medium">Nom :</span> {questionnaireData.name}</p>
+              )}
+              {questionnaireData.email && (
+                <p><span className="font-medium">Email :</span> {questionnaireData.email}</p>
+              )}
+              {questionnaireData.phone && (
+                <p><span className="font-medium">Téléphone :</span> {questionnaireData.phone}</p>
+              )}
             </div>
           )}
 

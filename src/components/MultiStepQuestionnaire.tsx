@@ -13,6 +13,7 @@ const questionnaireSchema = z.object({
   surface: z.string().min(1, "Entrez une surface approximative"),
   objective: z.string().min(1, "Sélectionnez un objectif"),
   name: z.string().min(2, "Nom requis").max(50, "Nom trop long"),
+  email: z.string().email("Email invalide").max(100, "Email trop long"),
   phone: z.string().regex(/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/, "Numéro invalide"),
 });
 
@@ -58,7 +59,7 @@ const MultiStepQuestionnaire = () => {
       case 3:
         return ["objective"];
       case 4:
-        return ["name", "phone"];
+        return ["name", "email", "phone"];
       default:
         return [];
     }
@@ -227,6 +228,18 @@ const MultiStepQuestionnaire = () => {
               />
               {errors.name && (
                 <p className="text-red-300 text-sm mt-1">{errors.name.message}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-white mb-2 font-medium">Email</label>
+              <input
+                type="email"
+                {...register("email")}
+                placeholder="jean.dupont@email.com"
+                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none"
+              />
+              {errors.email && (
+                <p className="text-red-300 text-sm mt-1">{errors.email.message}</p>
               )}
             </div>
             <div>

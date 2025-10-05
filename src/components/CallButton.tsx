@@ -1,11 +1,12 @@
 import { Phone, MessageCircle, Calculator } from "lucide-react";
 import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import QuestionnaireDialog from "./QuestionnaireDialog";
 
 const CallButton = () => {
   const phoneNumber = "+33621471922";
   const whatsappNumber = "33621471922";
-  const navigate = useNavigate();
+  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
 
   const handleCall = () => {
     window.location.href = `tel:${phoneNumber}`;
@@ -17,41 +18,44 @@ const CallButton = () => {
   };
 
   const handleEstimation = () => {
-    navigate("/contact");
+    setShowQuestionnaire(true);
   };
 
   return (
-    <div className="fixed bottom-4 left-0 right-0 z-50 lg:hidden">
-      <div className="container mx-auto px-4">
-        <div className="bg-card/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-border p-3 flex gap-2">
-          <Button
-            onClick={handleWhatsApp}
-            className="flex-1 bg-[#25D366] hover:bg-[#20BA5A] text-white gap-2"
-            size="lg"
-          >
-            <MessageCircle className="h-5 w-5" />
-            WhatsApp
-          </Button>
-          <Button
-            onClick={handleCall}
-            variant="outline"
-            size="lg"
-            className="aspect-square p-0"
-            aria-label="Appeler"
-          >
-            <Phone className="h-5 w-5" />
-          </Button>
-          <Button
-            onClick={handleEstimation}
-            className="flex-1 gap-2"
-            size="lg"
-          >
-            <Calculator className="h-5 w-5" />
-            Estimer
-          </Button>
+    <>
+      <QuestionnaireDialog open={showQuestionnaire} onOpenChange={setShowQuestionnaire} />
+      <div className="fixed bottom-4 left-0 right-0 z-50 lg:hidden">
+        <div className="container mx-auto px-4">
+          <div className="bg-card/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-border p-3 flex gap-2">
+            <Button
+              onClick={handleWhatsApp}
+              className="flex-1 bg-[#25D366] hover:bg-[#20BA5A] text-white gap-2"
+              size="lg"
+            >
+              <MessageCircle className="h-5 w-5" />
+              WhatsApp
+            </Button>
+            <Button
+              onClick={handleCall}
+              variant="outline"
+              size="lg"
+              className="aspect-square p-0"
+              aria-label="Appeler"
+            >
+              <Phone className="h-5 w-5" />
+            </Button>
+            <Button
+              onClick={handleEstimation}
+              className="flex-1 gap-2"
+              size="lg"
+            >
+              <Calculator className="h-5 w-5" />
+              Estimer
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
