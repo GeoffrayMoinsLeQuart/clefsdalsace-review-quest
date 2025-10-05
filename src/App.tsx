@@ -18,6 +18,7 @@ import CGV from "./pages/CGV";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Cookies from "./pages/Cookies";
 import CookieConsent from "./components/CookieConsent";
+import CallButton from "./components/CallButton";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <CookieConsent />
+      <CallButton />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
