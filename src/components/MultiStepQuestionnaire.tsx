@@ -19,7 +19,11 @@ const questionnaireSchema = z.object({
 
 type QuestionnaireData = z.infer<typeof questionnaireSchema>;
 
-const MultiStepQuestionnaire = () => {
+interface MultiStepQuestionnaireProps {
+  variant?: "hero" | "light";
+}
+
+const MultiStepQuestionnaire = ({ variant = "hero" }: MultiStepQuestionnaireProps) => {
   const [step, setStep] = useState(1);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -78,8 +82,14 @@ const MultiStepQuestionnaire = () => {
     }, 1500);
   };
 
+  const isLight = variant === "light";
+  
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+    <div className={`rounded-2xl p-8 border ${
+      isLight 
+        ? "bg-card shadow-elegant border-border" 
+        : "bg-white/10 backdrop-blur-sm border-white/20"
+    }`}>
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex justify-between mb-2">
@@ -87,12 +97,14 @@ const MultiStepQuestionnaire = () => {
             <div
               key={s}
               className={`flex-1 h-2 rounded-full mx-1 transition-all ${
-                s <= step ? "bg-accent" : "bg-white/20"
+                s <= step 
+                  ? "bg-accent" 
+                  : isLight ? "bg-muted" : "bg-white/20"
               }`}
             />
           ))}
         </div>
-        <p className="text-white/70 text-sm text-center">
+        <p className={`text-sm text-center ${isLight ? "text-muted-foreground" : "text-white/70"}`}>
           Étape {step} sur {totalSteps}
         </p>
       </div>
@@ -101,7 +113,7 @@ const MultiStepQuestionnaire = () => {
         {/* Step 1: Property Type */}
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in duration-300">
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className={`text-2xl font-bold mb-4 ${isLight ? "text-foreground" : "text-white"}`}>
               Quel type de bien possédez-vous ?
             </h3>
             <div className="grid grid-cols-2 gap-4">
@@ -118,14 +130,18 @@ const MultiStepQuestionnaire = () => {
                     {...register("propertyType")}
                     className="sr-only peer"
                   />
-                  <div className="p-6 rounded-xl bg-white/5 border-2 border-white/20 hover:border-accent peer-checked:border-accent peer-checked:bg-accent/20 transition-all text-center">
-                    <span className="text-white font-semibold">{type.label}</span>
+                  <div className={`p-6 rounded-xl border-2 hover:border-accent peer-checked:border-accent peer-checked:bg-accent/20 transition-all text-center ${
+                    isLight 
+                      ? "bg-muted/50 border-border" 
+                      : "bg-white/5 border-white/20"
+                  }`}>
+                    <span className={`font-semibold ${isLight ? "text-foreground" : "text-white"}`}>{type.label}</span>
                   </div>
                 </label>
               ))}
             </div>
             {errors.propertyType && (
-              <p className="text-red-300 text-sm">{errors.propertyType.message}</p>
+              <p className={`text-sm ${isLight ? "text-destructive" : "text-red-300"}`}>{errors.propertyType.message}</p>
             )}
           </div>
         )}
@@ -133,31 +149,39 @@ const MultiStepQuestionnaire = () => {
         {/* Step 2: Location & Surface */}
         {step === 2 && (
           <div className="space-y-6 animate-in fade-in duration-300">
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className={`text-2xl font-bold mb-4 ${isLight ? "text-foreground" : "text-white"}`}>
               Où se situe votre bien ?
             </h3>
             <div>
-              <label className="block text-white mb-2 font-medium">Ville</label>
+              <label className={`block mb-2 font-medium ${isLight ? "text-foreground" : "text-white"}`}>Ville</label>
               <input
                 type="text"
                 {...register("location")}
                 placeholder="Ex: Strasbourg, Colmar, Mulhouse..."
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none"
+                className={`w-full px-4 py-3 rounded-lg border focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none ${
+                  isLight 
+                    ? "bg-background border-input text-foreground placeholder:text-muted-foreground"
+                    : "bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                }`}
               />
               {errors.location && (
-                <p className="text-red-300 text-sm mt-1">{errors.location.message}</p>
+                <p className={`text-sm mt-1 ${isLight ? "text-destructive" : "text-red-300"}`}>{errors.location.message}</p>
               )}
             </div>
             <div>
-              <label className="block text-white mb-2 font-medium">Surface (m²)</label>
+              <label className={`block mb-2 font-medium ${isLight ? "text-foreground" : "text-white"}`}>Surface (m²)</label>
               <input
                 type="text"
                 {...register("surface")}
                 placeholder="Ex: 50, 75, 100..."
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none"
+                className={`w-full px-4 py-3 rounded-lg border focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none ${
+                  isLight 
+                    ? "bg-background border-input text-foreground placeholder:text-muted-foreground"
+                    : "bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                }`}
               />
               {errors.surface && (
-                <p className="text-red-300 text-sm mt-1">{errors.surface.message}</p>
+                <p className={`text-sm mt-1 ${isLight ? "text-destructive" : "text-red-300"}`}>{errors.surface.message}</p>
               )}
             </div>
           </div>
@@ -166,7 +190,7 @@ const MultiStepQuestionnaire = () => {
         {/* Step 3: Objective */}
         {step === 3 && (
           <div className="space-y-6 animate-in fade-in duration-300">
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className={`text-2xl font-bold mb-4 ${isLight ? "text-foreground" : "text-white"}`}>
               Quel est votre objectif ?
             </h3>
             <div className="space-y-3">
@@ -194,11 +218,15 @@ const MultiStepQuestionnaire = () => {
                     {...register("objective")}
                     className="sr-only peer"
                   />
-                  <div className="p-4 rounded-xl bg-white/5 border-2 border-white/20 hover:border-accent peer-checked:border-accent peer-checked:bg-accent/20 transition-all">
+                  <div className={`p-4 rounded-xl border-2 hover:border-accent peer-checked:border-accent peer-checked:bg-accent/20 transition-all ${
+                    isLight 
+                      ? "bg-muted/50 border-border" 
+                      : "bg-white/5 border-white/20"
+                  }`}>
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-white font-semibold">{obj.label}</p>
-                        <p className="text-white/70 text-sm">{obj.desc}</p>
+                        <p className={`font-semibold ${isLight ? "text-foreground" : "text-white"}`}>{obj.label}</p>
+                        <p className={`text-sm ${isLight ? "text-muted-foreground" : "text-white/70"}`}>{obj.desc}</p>
                       </div>
                       <CheckCircle className="w-6 h-6 text-accent opacity-0 peer-checked:opacity-100" />
                     </div>
@@ -207,7 +235,7 @@ const MultiStepQuestionnaire = () => {
               ))}
             </div>
             {errors.objective && (
-              <p className="text-red-300 text-sm">{errors.objective.message}</p>
+              <p className={`text-sm ${isLight ? "text-destructive" : "text-red-300"}`}>{errors.objective.message}</p>
             )}
           </div>
         )}
@@ -215,47 +243,63 @@ const MultiStepQuestionnaire = () => {
         {/* Step 4: Contact Info */}
         {step === 4 && (
           <div className="space-y-6 animate-in fade-in duration-300">
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className={`text-2xl font-bold mb-4 ${isLight ? "text-foreground" : "text-white"}`}>
               Dernière étape : vos coordonnées
             </h3>
             <div>
-              <label className="block text-white mb-2 font-medium">Nom complet</label>
+              <label className={`block mb-2 font-medium ${isLight ? "text-foreground" : "text-white"}`}>Nom complet</label>
               <input
                 type="text"
                 {...register("name")}
                 placeholder="Jean Dupont"
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none"
+                className={`w-full px-4 py-3 rounded-lg border focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none ${
+                  isLight 
+                    ? "bg-background border-input text-foreground placeholder:text-muted-foreground"
+                    : "bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                }`}
               />
               {errors.name && (
-                <p className="text-red-300 text-sm mt-1">{errors.name.message}</p>
+                <p className={`text-sm mt-1 ${isLight ? "text-destructive" : "text-red-300"}`}>{errors.name.message}</p>
               )}
             </div>
             <div>
-              <label className="block text-white mb-2 font-medium">Email</label>
+              <label className={`block mb-2 font-medium ${isLight ? "text-foreground" : "text-white"}`}>Email</label>
               <input
                 type="email"
                 {...register("email")}
                 placeholder="jean.dupont@email.com"
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none"
+                className={`w-full px-4 py-3 rounded-lg border focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none ${
+                  isLight 
+                    ? "bg-background border-input text-foreground placeholder:text-muted-foreground"
+                    : "bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                }`}
               />
               {errors.email && (
-                <p className="text-red-300 text-sm mt-1">{errors.email.message}</p>
+                <p className={`text-sm mt-1 ${isLight ? "text-destructive" : "text-red-300"}`}>{errors.email.message}</p>
               )}
             </div>
             <div>
-              <label className="block text-white mb-2 font-medium">Téléphone</label>
+              <label className={`block mb-2 font-medium ${isLight ? "text-foreground" : "text-white"}`}>Téléphone</label>
               <input
                 type="tel"
                 {...register("phone")}
                 placeholder="06 XX XX XX XX"
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none"
+                className={`w-full px-4 py-3 rounded-lg border focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none ${
+                  isLight 
+                    ? "bg-background border-input text-foreground placeholder:text-muted-foreground"
+                    : "bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                }`}
               />
               {errors.phone && (
-                <p className="text-red-300 text-sm mt-1">{errors.phone.message}</p>
+                <p className={`text-sm mt-1 ${isLight ? "text-destructive" : "text-red-300"}`}>{errors.phone.message}</p>
               )}
             </div>
-            <div className="bg-accent/10 border border-accent/30 rounded-lg p-4">
-              <p className="text-white/90 text-sm">
+            <div className={`border rounded-lg p-4 ${
+              isLight 
+                ? "bg-accent/10 border-accent/30 text-foreground" 
+                : "bg-accent/10 border-accent/30 text-white/90"
+            }`}>
+              <p className="text-sm">
                 ✅ Réponse sous 2h ouvrées<br />
                 ✅ Estimation gratuite et sans engagement
               </p>
@@ -270,7 +314,7 @@ const MultiStepQuestionnaire = () => {
               type="button"
               onClick={prevStep}
               variant="outline"
-              className="flex-1 bg-white/10 border-white/30 text-white hover:bg-white/20"
+              className={isLight ? "" : "bg-white/10 border-white/30 text-white hover:bg-white/20"}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Retour
@@ -280,13 +324,13 @@ const MultiStepQuestionnaire = () => {
             <Button
               type="button"
               onClick={nextStep}
-              className="flex-1 bg-accent hover:bg-accent/90"
+              className="flex-1 bg-accent hover:bg-accent/90 text-white"
             >
               Continuer
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           ) : (
-            <Button type="submit" className="flex-1 bg-accent hover:bg-accent/90">
+            <Button type="submit" className="flex-1 bg-accent hover:bg-accent/90 text-white">
               Obtenir mon estimation
               <CheckCircle className="w-4 h-4 ml-2" />
             </Button>

@@ -132,7 +132,7 @@ const Contact = () => {
                     Répondez à quelques questions et recevez une estimation personnalisée sous 24h
                   </p>
                 </div>
-                <MultiStepQuestionnaire />
+                <MultiStepQuestionnaire variant="light" />
               </div>
             </div>
           </div>
