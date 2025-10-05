@@ -2,8 +2,8 @@ import { Phone } from "lucide-react";
 import { Button } from "./ui/button";
 
 const CallButton = () => {
-  const phoneNumber = "+33123456789"; // Remplacez par votre numéro
-  const whatsappNumber = "33123456789"; // Remplacez par votre numéro (format international sans +)
+  const phoneNumber = "+33621471922";
+  const whatsappNumber = "33621471922";
 
   const handleCall = () => {
     window.location.href = `tel:${phoneNumber}`;
