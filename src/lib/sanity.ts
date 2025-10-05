@@ -1,21 +1,38 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
-export const sanityClient = createClient({
-  projectId: 'your_project_id', // Remplacer avec votre projectId Sanity
-  dataset: 'production',
+// Configuration Sanity - Remplacez avec vos vraies valeurs
+const SANITY_PROJECT_ID = ''; // Votre projectId ici (ex: 'abc123de')
+const SANITY_DATASET = 'production';
+
+// Créer le client seulement si configuré
+export const sanityClient = SANITY_PROJECT_ID ? createClient({
+  projectId: SANITY_PROJECT_ID,
+  dataset: SANITY_DATASET,
   useCdn: true,
   apiVersion: '2024-01-01',
-});
+}) : null;
 
-const builder = imageUrlBuilder(sanityClient);
+const builder = sanityClient ? imageUrlBuilder(sanityClient) : null;
 
 export const urlFor = (source: any) => {
+  if (!builder) {
+    // Retourner un objet compatible avec l'API ImageUrlBuilder
+    return {
+      width: () => ({ url: () => source }),
+      height: () => ({ url: () => source }),
+      url: () => source
+    };
+  }
   return builder.image(source);
 };
 
 // Query pour récupérer tous les biens
 export const fetchProperties = async () => {
+  if (!sanityClient) {
+    throw new Error('Sanity not configured');
+  }
+  
   const query = `*[_type == "property"] | order(_createdAt desc) {
     _id,
     title,
@@ -41,6 +58,10 @@ export const fetchProperties = async () => {
 
 // Query pour récupérer un bien par son slug
 export const fetchPropertyBySlug = async (slug: string) => {
+  if (!sanityClient) {
+    throw new Error('Sanity not configured');
+  }
+  
   const query = `*[_type == "property" && slug.current == $slug][0] {
     _id,
     title,
@@ -68,6 +89,10 @@ export const fetchPropertyBySlug = async (slug: string) => {
 
 // Query pour récupérer tous les articles de blog
 export const fetchBlogPosts = async () => {
+  if (!sanityClient) {
+    throw new Error('Sanity not configured');
+  }
+  
   const query = `*[_type == "post"] | order(publishedAt desc) {
     _id,
     title,
@@ -89,6 +114,10 @@ export const fetchBlogPosts = async () => {
 
 // Query pour récupérer un article par son slug
 export const fetchBlogPostBySlug = async (slug: string) => {
+  if (!sanityClient) {
+    throw new Error('Sanity not configured');
+  }
+  
   const query = `*[_type == "post" && slug.current == $slug][0] {
     _id,
     title,
