@@ -7,6 +7,21 @@ import { MapPin, Home, Bed, Bath, TrendingUp, Check, ArrowLeft } from "lucide-re
 import { fetchPropertyBySlug, urlFor } from "@/lib/sanity";
 import { Property } from "@/types/sanity";
 
+// Helper pour gérer les images Sanity ou URLs directes
+const getImageUrl = (image: any, width = 800): string => {
+  if (typeof image === 'string') {
+    // Si c'est déjà une URL, l'utiliser directement
+    return image;
+  }
+  // Sinon, c'est un asset Sanity
+  try {
+    return urlFor(image).width(width).url();
+  } catch (error) {
+    // Fallback si l'asset est malformé
+    return "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&auto=format&fit=crop";
+  }
+};
+
 const PropertyDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -130,7 +145,7 @@ const PropertyDetail = () => {
   }
 
   const mainImage = property.images && property.images.length > 0
-    ? urlFor(property.images[0]).width(1200).url()
+    ? getImageUrl(property.images[0], 1200)
     : "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&auto=format&fit=crop";
 
   return (
@@ -168,7 +183,7 @@ const PropertyDetail = () => {
                   {property.images.slice(1, 4).map((img, index) => (
                     <img 
                       key={index}
-                      src={urlFor(img).width(800).url()}
+                      src={getImageUrl(img, 800)}
                       alt={`${property.title} ${index + 2}`}
                       className="w-full h-64 object-cover rounded-xl hover:scale-105 transition-transform duration-300"
                     />
