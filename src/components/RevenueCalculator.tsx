@@ -1,9 +1,8 @@
-'use client';
-import { useState } from 'react';
-import { Calculator, TrendingUp, Car } from 'lucide-react';
-import { Button } from '../Buttons/button';
-import { Label } from '../others/label';
-import { Slider } from '../others/slider';
+import { useState, useEffect } from 'react';
+import { Calculator, TrendingUp, Car, Phone } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import QuestionnaireDialog from './QuestionnaireDialog';
 
 const RevenueCalculator = () => {
   const [surface, setSurface] = useState(50);
@@ -13,6 +12,21 @@ const RevenueCalculator = () => {
   const [hasParking, setHasParking] = useState(false);
   const [taxeFonciere, setTaxeFonciere] = useState(800);
   const [showResults, setShowResults] = useState(false);
+  const [showContactDialog, setShowContactDialog] = useState(false);
+
+  // Save calculator data to localStorage whenever it changes
+  useEffect(() => {
+    const calculatorData = {
+      surface,
+      bedrooms,
+      city,
+      finish,
+      hasParking,
+      taxeFonciere,
+      results: showResults ? calculateRevenue() : null
+    };
+    localStorage.setItem('calculatorData', JSON.stringify(calculatorData));
+  }, [surface, bedrooms, city, finish, hasParking, taxeFonciere, showResults]);
 
   // --- LOGIQUE DE CALCUL ---
   const calculateRevenue = () => {
@@ -56,7 +70,7 @@ const RevenueCalculator = () => {
             Estimez vos revenus nets potentiels en courte durée
           </p>
           <p className="text-xs text-gray-500 mt-1">
-            Basé sur les données réelles des Clés d’Alsace
+            Basé sur les données réelles des Clés d'Alsace
           </p>
         </div>
       </div>
@@ -161,9 +175,12 @@ const RevenueCalculator = () => {
         </div>
 
         {/* Calcul */}
-        <Button onClick={() => setShowResults(true)} className="w-full" size="lg">
+        <button 
+          onClick={() => setShowResults(true)} 
+          className="w-full py-3 px-6 bg-gradient-to-r from-primary to-accent text-white font-semibold rounded-lg hover:shadow-elegant transition-all duration-300"
+        >
           Calculer mes revenus
-        </Button>
+        </button>
 
         {/* Résultats */}
         {showResults && (
@@ -201,13 +218,25 @@ const RevenueCalculator = () => {
               </div>
             </div>
 
-            <p className="text-xs text-gray-500 text-center">
-              * Estimation basée sur un taux d’occupation de 70% et les loyers moyens du marché.
+            <p className="text-xs text-gray-500 text-center mb-6">
+              * Estimation basée sur un taux d'occupation de 70% et les loyers moyens du marché.
               Résultats non contractuels.
             </p>
+
+            {/* Contact CTA Button */}
+            <button
+              onClick={() => setShowContactDialog(true)}
+              className="w-full py-4 px-8 bg-accent hover:bg-accent/90 text-white font-bold rounded-lg flex items-center justify-center gap-3 shadow-glow hover:shadow-elegant transition-all duration-300 animate-fade-in"
+            >
+              <Phone className="w-5 h-5" />
+              Obtenir mon estimation personnalisée
+            </button>
           </div>
         )}
       </div>
+
+      {/* Contact Dialog */}
+      <QuestionnaireDialog open={showContactDialog} onOpenChange={setShowContactDialog} />
     </div>
   );
 };

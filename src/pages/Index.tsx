@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import ResultsShowcase from "@/components/ResultsShowcase";
 import Services from "@/components/Services";
 import Testimonials from "@/components/Testimonials";
-import ContactCTA from "@/components/ContactCTA";
+import FinalCTA from "@/components/FinalCTA";
 import EstimationWidget from "@/components/EstimationWidget";
 import RevenueCalculator from "@/components/RevenueCalculator";
 import FAQ from "@/components/FAQ";
@@ -55,7 +55,7 @@ const Index = () => {
           </div>
         </section>
         <Testimonials />
-        <ContactCTA />
+        <FinalCTA />
         <EstimationWidget />
       </main>
       <Footer />

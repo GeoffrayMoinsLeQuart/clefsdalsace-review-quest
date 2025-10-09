@@ -70,7 +70,16 @@ const MultiStepQuestionnaire = ({ variant = "hero" }: MultiStepQuestionnaireProp
   };
 
   const onSubmit = async (data: QuestionnaireData) => {
-    console.log("Questionnaire data:", data);
+    // Get calculator data from localStorage if available
+    const calculatorData = localStorage.getItem('calculatorData');
+    const parsedCalculatorData = calculatorData ? JSON.parse(calculatorData) : null;
+    
+    const completeData = {
+      ...data,
+      calculatorData: parsedCalculatorData
+    };
+    
+    console.log("Complete submission data:", completeData);
     
     toast({
       title: "✅ Estimation en cours !",
@@ -78,7 +87,9 @@ const MultiStepQuestionnaire = ({ variant = "hero" }: MultiStepQuestionnaireProp
     });
 
     setTimeout(() => {
-      navigate("/merci", { state: { questionnaireData: data } });
+      navigate("/merci", { state: { questionnaireData: completeData } });
+      // Clear calculator data after submission
+      localStorage.removeItem('calculatorData');
     }, 1500);
   };
 

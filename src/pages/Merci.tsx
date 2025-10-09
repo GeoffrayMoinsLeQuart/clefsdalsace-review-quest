@@ -56,6 +56,25 @@ const Merci = () => {
               {questionnaireData.phone && (
                 <p><span className="font-medium">Téléphone :</span> {questionnaireData.phone}</p>
               )}
+              
+              {questionnaireData.calculatorData && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <h3 className="font-medium text-base mb-3">Données du calculateur</h3>
+                  <div className="space-y-2 text-sm">
+                    <p><span className="font-medium">Surface :</span> {questionnaireData.calculatorData.surface} m²</p>
+                    <p><span className="font-medium">Chambres :</span> {questionnaireData.calculatorData.bedrooms}</p>
+                    <p><span className="font-medium">Ville :</span> {questionnaireData.calculatorData.city}</p>
+                    <p><span className="font-medium">Finition :</span> {questionnaireData.calculatorData.finish}</p>
+                    <p><span className="font-medium">Parking :</span> {questionnaireData.calculatorData.hasParking ? 'Oui' : 'Non'}</p>
+                    <p><span className="font-medium">Taxe foncière :</span> {questionnaireData.calculatorData.taxeFonciere}€/an</p>
+                    {questionnaireData.calculatorData.results && (
+                      <div className="mt-3 p-3 bg-primary/10 rounded">
+                        <p className="font-medium text-primary">Revenus estimés : {questionnaireData.calculatorData.results.monthlyNet}€/mois</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
